@@ -78,12 +78,14 @@ export default function NotesContainer() {
 
   return (
     <Notes
+      notes={notes}
       onNoteClick={(id) => history.push(`/notes/${id}`)}
       isLoading={fetchNotesStatus === "loading"}
       selectedNotes={selectedNotes}
-      onMouseEnter={setActiveNote}
       activeNote={activeNote}
-      notes={notes}
+      onMouseEnter={(id) => {
+        dispatch(setActiveNote(id));
+      }}
     />
   );
 }

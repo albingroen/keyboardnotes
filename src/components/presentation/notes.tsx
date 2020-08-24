@@ -56,21 +56,30 @@ export default function Notes({
         }}
         renderItem={(note) => {
           const isSelected = selectedNotes.includes(note._id);
+          const isActive = note._id === activeNote;
 
           return (
             <List.Item
               onClick={() => onNoteClick(note._id)}
               onMouseEnter={() => onMouseEnter(note._id)}
               style={{
+                border: "none",
+                borderLeft: "4px solid white",
                 background: isSelected
                   ? "#54acdc"
-                  : note._id === activeNote
+                  : isActive
                   ? "#f4f6fb"
                   : "white",
+                borderLeftColor: isSelected
+                  ? isActive
+                    ? "white"
+                    : "#54acdc"
+                  : isActive
+                  ? "#aeb1dd"
+                  : "white",
                 cursor: "pointer",
-                border: "none",
-                padding: '0.5rem 4rem',
-                paddingRight: '2rem',
+                padding: "0.5rem 3rem",
+                paddingRight: "2rem",
               }}
             >
               <Typography.Text
