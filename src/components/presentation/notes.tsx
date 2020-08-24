@@ -50,7 +50,13 @@ export default function Notes({
         bordered={false}
         dataSource={notes}
         loading={isLoading}
-        locale={{ emptyText: "No notes yet" }}
+        locale={{
+          emptyText: (
+            <Typography.Text type="secondary">
+              Hit <Typography.Text keyboard>c</Typography.Text> to create a note
+            </Typography.Text>
+          ),
+        }}
         renderItem={(note) => {
           const isSelected = selectedNotes.includes(note._id);
           const isActive = note._id === activeNote;

@@ -1,12 +1,15 @@
 import React, { CSSProperties } from "react";
 import { Typography, Space } from "antd";
 
-const KeyValue: React.FC<{ label: string, value: string }> = ({ label, value }) => (
+const KeyValue: React.FC<{ label: string; value: string }> = ({
+  label,
+  value,
+}) => (
   <Space style={{ display: "flex", justifyContent: "space-between" }}>
     <Typography.Text>{label}</Typography.Text>
     <Typography.Text keyboard>{value}</Typography.Text>
   </Space>
-)
+);
 
 export default function KeyboardGuide({ style }: { style?: CSSProperties }) {
   return (
