@@ -25,6 +25,12 @@ import {
   IRemoveNoteErrorAction,
   ISetActiveNoteAction,
   SET_ACTIVE_NOTE,
+  IAddSelectedNoteAction,
+  ADD_SELECTED_NOTE,
+  IRemoveSelectedNoteAction,
+  REMOVE_SELECTED_NOTE,
+  IResetSelectedNotesAction,
+  RESET_SELECTED_NOTES,
 } from "./types";
 import { INote } from "../../../types";
 
@@ -114,5 +120,25 @@ export function setActiveNote(id: string): ISetActiveNoteAction {
   return {
     type: SET_ACTIVE_NOTE,
     payload: id,
+  };
+}
+
+// SELECTED NOTES
+
+export function addSelectedNote(id: string): IAddSelectedNoteAction {
+  return {
+    type: ADD_SELECTED_NOTE,
+    payload: id,
+  };
+}
+export function removeSelectedNote(id: string): IRemoveSelectedNoteAction {
+  return {
+    type: REMOVE_SELECTED_NOTE,
+    payload: id,
+  };
+}
+export function resetSelectedNotes(): IResetSelectedNotesAction {
+  return {
+    type: RESET_SELECTED_NOTES,
   };
 }

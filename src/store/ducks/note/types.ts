@@ -81,6 +81,24 @@ export interface ISetActiveNoteAction {
   payload: string;
 }
 
+// SELECTED NOTES
+
+export const ADD_SELECTED_NOTE = "keyboardnotes/note/ADD_SELECTED_NOTE";
+export const REMOVE_SELECTED_NOTE = "keyboardnotes/note/REMOVE_SELECTED_NOTE";
+export const RESET_SELECTED_NOTES = "keyboardnotes/note/RESET_SELECTED_NOTES";
+
+export interface IAddSelectedNoteAction {
+  type: typeof ADD_SELECTED_NOTE;
+  payload: string;
+}
+export interface IRemoveSelectedNoteAction {
+  type: typeof REMOVE_SELECTED_NOTE;
+  payload: string;
+}
+export interface IResetSelectedNotesAction {
+  type: typeof RESET_SELECTED_NOTES;
+}
+
 export type NoteActions =
   | IFetchNotesAction
   | IFetchNotesSuccessAction
@@ -94,4 +112,7 @@ export type NoteActions =
   | IRemoveNoteAction
   | IRemoveNoteSuccessAction
   | IRemoveNoteErrorAction
-  | ISetActiveNoteAction;
+  | ISetActiveNoteAction
+  | IAddSelectedNoteAction
+  | IRemoveSelectedNoteAction
+  | IResetSelectedNotesAction;

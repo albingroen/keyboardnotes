@@ -13,12 +13,16 @@ import {
   REMOVE_NOTE_SUCCESS,
   REMOVE_NOTE_ERROR,
   SET_ACTIVE_NOTE,
+  ADD_SELECTED_NOTE,
+  REMOVE_SELECTED_NOTE,
+  RESET_SELECTED_NOTES,
 } from "./types";
 import { INote, ActionStatus } from "../../../types";
 
 export interface INoteState {
   notes: INote[];
   activeNote: string;
+  selectedNotes: string[];
 
   fetchNotesStatus: ActionStatus;
   fetchNotesError: string;
@@ -36,6 +40,7 @@ export interface INoteState {
 const initialState: INoteState = {
   notes: [],
   activeNote: "",
+  selectedNotes: [],
 
   fetchNotesStatus: "idle",
   fetchNotesError: "",
@@ -156,6 +161,26 @@ export default function reducer(
       return {
         ...state,
         activeNote: action.payload,
+      };
+
+    // SELECTED NOTES
+
+    case ADD_SELECTED_NOTE:
+      return {
+        ...state,
+        selectedNotes: [...state.selectedNotes, action.payload],
+      };
+    case REMOVE_SELECTED_NOTE:
+      return {
+        ...state,
+        selectedNotes: state.selectedNotes.filter(
+          (id) => id !== action.payload
+        ),
+      };
+    case RESET_SELECTED_NOTES:
+      return {
+        ...state,
+        selectedNotes: [],
       };
 
     default:

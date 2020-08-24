@@ -10,6 +10,7 @@ interface INotesProps {
   notes: INote[];
   isLoading: boolean;
   activeNote?: string;
+  selectedNotes: string[];
   onNoteClick: (id: string) => void;
   onMouseEnter: (id: string) => void;
 }
@@ -20,6 +21,7 @@ export default function Notes({
   isLoading,
   onNoteClick,
   onMouseEnter,
+  selectedNotes,
 }: INotesProps) {
   return (
     <Page
@@ -51,21 +53,37 @@ export default function Notes({
         locale={{
           emptyText: <KeyboardGuide />,
         }}
-        renderItem={(note) => (
-          <List.Item
-            onClick={() => onNoteClick(note._id)}
-            onMouseEnter={() => onMouseEnter(note._id)}
-            style={{
-              background: note._id === activeNote ? "#f4f6fb" : "white",
-              cursor: "pointer",
-            }}
-          >
-            <List.Item.Meta title={note.title} />
-            <Typography.Text type="secondary">
-              {moment(note.createdAt).format("DD MMM HH:mm")}
-            </Typography.Text>
-          </List.Item>
-        )}
+        renderItem={(note) => {
+          const isSelected = selectedNotes.includes(note._id);
+
+          return (
+            <List.Item
+              onClick={() => onNoteClick(note._id)}
+              onMouseEnter={() => onMouseEnter(note._id)}
+              style={{
+                background: isSelected
+                  ? "#54acdc"
+                  : note._id === activeNote
+                  ? "#f4f6fb"
+                  : "white",
+                cursor: "pointer",
+              }}
+            >
+              <Typography.Text
+                strong
+                style={{ color: isSelected ? "white" : "inherit" }}
+              >
+                {note.title}
+              </Typography.Text>
+              <Typography.Text
+                style={{ color: isSelected ? "white" : "inherit" }}
+                type="secondary"
+              >
+                {moment(note.createdAt).format("DD MMM HH:mm")}
+              </Typography.Text>
+            </List.Item>
+          );
+        }}
       />
 
       {notes.length ? (
