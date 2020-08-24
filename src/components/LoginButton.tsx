@@ -6,7 +6,11 @@ const LoginButton = () => {
   const { loginWithRedirect } = useAuth0();
 
   return (
-    <Button style={{ margin: '1rem', display: 'block' }} type="primary" onClick={() => loginWithRedirect()}>
+    <Button
+      style={{ margin: "1rem", display: "block" }}
+      type="primary"
+      onClick={() => loginWithRedirect()}
+    >
       Log in to Keyboardnotes
     </Button>
   );

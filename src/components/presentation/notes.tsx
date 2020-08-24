@@ -1,10 +1,10 @@
 import React, { CSSProperties } from "react";
-import ReactMarkdown from "react-markdown";
-import { INote } from "../../types";
 import { List, Typography } from "antd";
 import moment from "moment";
+import ReactMarkdown from "react-markdown";
+import { INote } from "../../types";
+import ContextFooter from "../container/context-footer";
 import Page from "./page";
-import LogoutButton from "../LogoutButton";
 
 interface INotesProps {
   notes: INote[];
@@ -38,7 +38,8 @@ export default function Notes({
               source={notes.find((note) => note._id === activeNote)?.body}
             />
           </div>
-          <LogoutButton />
+
+          <ContextFooter />
         </div>
       }
     >

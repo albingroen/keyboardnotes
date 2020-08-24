@@ -1,6 +1,7 @@
 import React, { ChangeEvent } from "react";
+import { Divider, Typography } from "antd";
 import ReactMarkdown from "react-markdown";
-import { Typography, Divider } from "antd";
+import ContextFooter from "../container/context-footer";
 import Page from "./page";
 
 interface INoteProps {
@@ -20,8 +21,20 @@ export default function Note({
     <Page
       left={<div />}
       right={
-        <div style={{ padding: "1.5rem 2rem" }}>
-          <ReactMarkdown source={value} />
+        <div
+          style={{
+            padding: "1.5rem 2rem",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-start",
+            height: "100%",
+          }}
+        >
+          <div style={{ flex: 1 }}>
+            <ReactMarkdown source={value} />
+          </div>
+
+          <ContextFooter />
         </div>
       }
     >
