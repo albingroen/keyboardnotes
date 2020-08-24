@@ -43,7 +43,7 @@ export default function Note({
         <Divider />
         <textarea
           style={{ flex: 1, width: "100%", border: "none", fontSize: "1.1em" }}
-          placeholder="Start jotting down your thoughts"
+          placeholder="Start jotting down your thoughts (markdown is supported)"
           onChange={onChange}
           defaultValue={value}
         />
