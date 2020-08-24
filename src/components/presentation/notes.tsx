@@ -1,4 +1,4 @@
-import React from "react";
+import React, { CSSProperties } from "react";
 import ReactMarkdown from "react-markdown";
 import { INote } from "../../types";
 import { List, Typography } from "antd";
@@ -48,7 +48,7 @@ export default function Notes({
         dataSource={notes}
         loading={isLoading}
         locale={{
-          emptyText: `Hit "c" to create a new note`,
+          emptyText: <KeyboardGuide />,
         }}
         renderItem={(note) => (
           <List.Item
@@ -68,18 +68,26 @@ export default function Notes({
       />
 
       {notes.length ? (
-        <Typography.Text
-          type="secondary"
+        <KeyboardGuide
           style={{
             padding: "1rem",
             textAlign: "center",
             margin: "0 auto",
             display: "block",
           }}
-        >
-          {`Hit "c" to create, and "e" to delete a note. Browse using "j" and "k".`}
-        </Typography.Text>
+        />
       ) : null}
     </Page>
   );
 }
+
+const KeyboardGuide: React.FC<{ style?: CSSProperties }> = ({ style }) => (
+  <Typography.Text type="secondary" style={style}>
+    Hit <Typography.Text keyboard>c</Typography.Text> to create, and{" "}
+    <Typography.Text keyboard>e</Typography.Text> to delete a note. Browse using{" "}
+    <Typography.Text keyboard>j</Typography.Text> and{" "}
+    <Typography.Text keyboard>k</Typography.Text>.<br />
+    Hit <Typography.Text keyboard>enter</Typography.Text> to edit and{" "}
+    <Typography.Text keyboard>esc</Typography.Text> to come back when editing.
+  </Typography.Text>
+);
