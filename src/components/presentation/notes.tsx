@@ -47,6 +47,9 @@ export default function Notes({
         bordered={false}
         dataSource={notes}
         loading={isLoading}
+        locale={{
+          emptyText: `Hit "c" to create a new note`,
+        }}
         renderItem={(note) => (
           <List.Item
             onClick={() => onNoteClick(note._id)}
@@ -63,6 +66,20 @@ export default function Notes({
           </List.Item>
         )}
       />
+
+      {notes.length ? (
+        <Typography.Text
+          type="secondary"
+          style={{
+            padding: "1rem",
+            textAlign: "center",
+            margin: "0 auto",
+            display: "block",
+          }}
+        >
+          {`Hit "c" to create, and "e" to delete a note. Browse using "j" and "k".`}
+        </Typography.Text>
+      ) : null}
     </Page>
   );
 }

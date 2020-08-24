@@ -20,7 +20,7 @@ export default function Note({
     <Page
       left={<div />}
       right={
-        <div style={{ padding: "1rem 2rem" }}>
+        <div style={{ padding: "1.5rem 2rem" }}>
           <ReactMarkdown source={value} />
         </div>
       }
