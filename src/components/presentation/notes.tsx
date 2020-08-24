@@ -1,9 +1,10 @@
-import React, { CSSProperties } from "react";
+import React from "react";
 import { List, Typography } from "antd";
 import moment from "moment";
 import ReactMarkdown from "react-markdown";
 import { INote } from "../../types";
 import ContextFooter from "../container/context-footer";
+import KeyboardGuide from "./keyboard-guide";
 import Page from "./page";
 
 interface INotesProps {
@@ -99,14 +100,3 @@ export default function Notes({
     </Page>
   );
 }
-
-const KeyboardGuide: React.FC<{ style?: CSSProperties }> = ({ style }) => (
-  <Typography.Text type="secondary" style={style}>
-    Hit <Typography.Text keyboard>c</Typography.Text> to create, and{" "}
-    <Typography.Text keyboard>e</Typography.Text> to delete a note. Browse using{" "}
-    <Typography.Text keyboard>j</Typography.Text> and{" "}
-    <Typography.Text keyboard>k</Typography.Text>.<br />
-    Hit <Typography.Text keyboard>enter</Typography.Text> to edit and{" "}
-    <Typography.Text keyboard>esc</Typography.Text> to come back when editing.
-  </Typography.Text>
-);

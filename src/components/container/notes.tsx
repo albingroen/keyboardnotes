@@ -45,10 +45,10 @@ export default function NotesContainer() {
           return dispatch(createNote({ token, history }));
         case 69: // 'e'
           if (selectedNotes.length) {
-            return selectedNotes.forEach(id => {
-              dispatch(deleteNote({ token }, id))
-              dispatch(removeSelectedNote(id))
-            })
+            return selectedNotes.forEach((id) => {
+              dispatch(deleteNote({ token }, id));
+              dispatch(removeSelectedNote(id));
+            });
           }
 
           return dispatch(deleteNote({ token }, activeNote));
@@ -56,6 +56,12 @@ export default function NotesContainer() {
           return selectedNotes.includes(activeNote)
             ? dispatch(removeSelectedNote(activeNote))
             : dispatch(addSelectedNote(activeNote));
+        case 27: // 'esc'
+          if (selectedNotes.length) {
+            return selectedNotes.forEach((id) => {
+              dispatch(removeSelectedNote(id));
+            });
+          }
       }
     };
 
