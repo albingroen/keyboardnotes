@@ -3,9 +3,11 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
 
 import noteReducer from "./ducks/note/reducers";
+import interfaceReducer from "./ducks/interface/reducers";
 
 const rootReducer = combineReducers({
   note: noteReducer,
+  interface: interfaceReducer,
 });
 
 export type AppState = ReturnType<typeof rootReducer>;

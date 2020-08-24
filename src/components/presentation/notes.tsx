@@ -4,7 +4,6 @@ import moment from "moment";
 import ReactMarkdown from "react-markdown";
 import { INote } from "../../types";
 import ContextFooter from "../container/context-footer";
-import KeyboardGuide from "./keyboard-guide";
 import Page from "./page";
 
 interface INotesProps {
@@ -51,9 +50,7 @@ export default function Notes({
         bordered={false}
         dataSource={notes}
         loading={isLoading}
-        locale={{
-          emptyText: <KeyboardGuide />,
-        }}
+        locale={{ emptyText: "No notes yet" }}
         renderItem={(note) => {
           const isSelected = selectedNotes.includes(note._id);
           const isActive = note._id === activeNote;
@@ -98,17 +95,6 @@ export default function Notes({
           );
         }}
       />
-
-      {notes.length ? (
-        <KeyboardGuide
-          style={{
-            padding: "1rem",
-            textAlign: "center",
-            margin: "0 auto",
-            display: "block",
-          }}
-        />
-      ) : null}
     </Page>
   );
 }

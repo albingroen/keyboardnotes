@@ -1,20 +1,24 @@
 import React, { CSSProperties } from "react";
-import { Typography } from "antd";
+import { Typography, Space } from "antd";
+
+const KeyValue: React.FC<{ label: string, value: string }> = ({ label, value }) => (
+  <Space style={{ display: "flex", justifyContent: "space-between" }}>
+    <Typography.Text>{label}</Typography.Text>
+    <Typography.Text keyboard>{value}</Typography.Text>
+  </Space>
+)
 
 export default function KeyboardGuide({ style }: { style?: CSSProperties }) {
   return (
-    <Typography.Text type="secondary" style={style}>
-      Hit <Typography.Text keyboard>c</Typography.Text> to create, and{" "}
-      <Typography.Text keyboard>e</Typography.Text> to delete a note. Browse
-      using <Typography.Text keyboard>j</Typography.Text> and{" "}
-      <Typography.Text keyboard>k</Typography.Text>.<br />
-      Hit <Typography.Text keyboard>enter</Typography.Text> to edit and{" "}
-      <Typography.Text keyboard>esc</Typography.Text> to come back when editing.
-      <br />
-      Select a note by hitting <Typography.Text keyboard>
-        x
-      </Typography.Text> and <Typography.Text keyboard>esc</Typography.Text> to
-      deselect all.
-    </Typography.Text>
+    <Space direction="vertical" style={{ width: "100%" }}>
+      <KeyValue label="Create note" value="c" />
+      <KeyValue label="Delete note" value="e" />
+      <KeyValue label="Select note" value="x" />
+      <KeyValue label="Browse next note" value="j" />
+      <KeyValue label="Browse previous note" value="k" />
+      <KeyValue label="Edit note" value="enter" />
+      <KeyValue label="Return to home" value="esc" />
+      <KeyValue label="Show all shortcuts" value="?" />
+    </Space>
   );
 }

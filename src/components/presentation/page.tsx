@@ -1,4 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { Drawer } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import { AppState } from "../../store";
+import { toggleInterfaceItem } from "../../store/ducks/interface/operation";
+import KeyboardGuide from "./keyboard-guide";
 
 interface IPageProps {
   left?: React.ReactNode;
@@ -7,6 +12,21 @@ interface IPageProps {
 }
 
 export default function Page({ left, children, right }: IPageProps) {
+  const { shortcuts } = useSelector((state: AppState) => state.interface);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      switch (e.keyCode) {
+        case 191:
+          return dispatch(toggleInterfaceItem("shortcuts"));
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [dispatch]);
+
   return (
     <div style={{ height: "100vh", display: "flex", background: "#fafcff" }}>
       {left && <div style={{ width: "20%" }}>{left}</div>}
@@ -23,6 +43,14 @@ export default function Page({ left, children, right }: IPageProps) {
       </div>
 
       {right && <div style={{ width: "25%" }}>{right}</div>}
+
+      <Drawer
+        title="Keyboard shortcuts"
+        visible={shortcuts.isOpen}
+        onClose={() => dispatch(toggleInterfaceItem("shortcuts"))}
+      >
+        <KeyboardGuide />
+      </Drawer>
     </div>
   );
 }
