@@ -17,9 +17,8 @@ export default function App() {
 
   useEffect(() => {
     (async () => {
-      const token = await getAccessTokenSilently();
-
-      if (isAuthenticated && !isLoading && token) {
+      if (isAuthenticated && !isLoading) {
+        const token = await getAccessTokenSilently();
         dispatch(loadNotes({ token }));
       }
     })();

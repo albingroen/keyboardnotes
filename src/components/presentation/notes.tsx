@@ -1,7 +1,10 @@
 import React from "react";
+import ReactMarkdown from "react-markdown";
 import { INote } from "../../types";
 import { List, Typography } from "antd";
 import moment from "moment";
+import Page from "./page";
+import LogoutButton from "../LogoutButton";
 
 interface INotesProps {
   notes: INote[];
@@ -19,26 +22,47 @@ export default function Notes({
   onMouseEnter,
 }: INotesProps) {
   return (
-    <List
-      size="small"
-      bordered={false}
-      dataSource={notes}
-      loading={isLoading}
-      renderItem={(note) => (
-        <List.Item
-          onClick={() => onNoteClick(note._id)}
-          onMouseEnter={() => onMouseEnter(note._id)}
+    <Page
+      right={
+        <div
           style={{
-            background: note._id === activeNote ? "#f4f6fb" : "white",
-            cursor: "pointer",
+            padding: "1.5rem 2rem",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-start",
+            height: "100%",
           }}
         >
-          <List.Item.Meta title={note.title} />
-          <Typography.Text type="secondary">
-            {moment(note.createdAt).format("DD MMM HH:mm")}
-          </Typography.Text>
-        </List.Item>
-      )}
-    />
+          <div style={{ flex: 1 }}>
+            <ReactMarkdown
+              source={notes.find((note) => note._id === activeNote)?.body}
+            />
+          </div>
+          <LogoutButton />
+        </div>
+      }
+    >
+      <List
+        size="small"
+        bordered={false}
+        dataSource={notes}
+        loading={isLoading}
+        renderItem={(note) => (
+          <List.Item
+            onClick={() => onNoteClick(note._id)}
+            onMouseEnter={() => onMouseEnter(note._id)}
+            style={{
+              background: note._id === activeNote ? "#f4f6fb" : "white",
+              cursor: "pointer",
+            }}
+          >
+            <List.Item.Meta title={note.title} />
+            <Typography.Text type="secondary">
+              {moment(note.createdAt).format("DD MMM HH:mm")}
+            </Typography.Text>
+          </List.Item>
+        )}
+      />
+    </Page>
   );
 }

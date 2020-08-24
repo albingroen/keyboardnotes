@@ -1,4 +1,5 @@
 import React, { ChangeEvent } from "react";
+import ReactMarkdown from "react-markdown";
 import { Typography, Divider } from "antd";
 import Page from "./page";
 
@@ -16,8 +17,22 @@ export default function Note({
   onChangeTitle,
 }: INoteProps) {
   return (
-    <Page>
-      <div style={{ display: "flex", height: "100%", flexDirection: "column" }}>
+    <Page
+      left={<div />}
+      right={
+        <div style={{ padding: "1rem 2rem" }}>
+          <ReactMarkdown source={value} />
+        </div>
+      }
+    >
+      <div
+        style={{
+          display: "flex",
+          height: "100%",
+          flexDirection: "column",
+          padding: "2rem",
+        }}
+      >
         <Typography.Title
           editable={{ onChange: onChangeTitle }}
           style={{ margin: 0, padding: 0, lineHeight: 1 }}
@@ -30,7 +45,7 @@ export default function Note({
           style={{ flex: 1, width: "100%", border: "none", fontSize: "1.1em" }}
           placeholder="Start jotting down your thoughts"
           onChange={onChange}
-          value={value}
+          defaultValue={value}
         />
       </div>
     </Page>
