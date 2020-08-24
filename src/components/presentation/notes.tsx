@@ -69,6 +69,8 @@ export default function Notes({
                   : "white",
                 cursor: "pointer",
                 border: "none",
+                padding: '0.5rem 4rem',
+                paddingRight: '2rem',
               }}
             >
               <Typography.Text
@@ -78,7 +80,7 @@ export default function Notes({
                 {note.title}
               </Typography.Text>
               <Typography.Text
-                style={{ color: isSelected ? "white" : "inherit" }}
+                style={{ color: isSelected ? "white" : "#888" }}
                 type="secondary"
               >
                 {moment(note.createdAt).format("DD MMM HH:mm")}
