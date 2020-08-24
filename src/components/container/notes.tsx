@@ -21,6 +21,7 @@ export default function NotesContainer() {
 
       switch (e.keyCode) {
         case 74: // 'j'
+        case 40: // 'down'
           return dispatch(
             setActiveNote(
               notes[notes.findIndex((n) => n._id === activeNote) + 1]?._id ||
@@ -28,6 +29,7 @@ export default function NotesContainer() {
             )
           );
         case 75: // 'k'
+        case 38: // 'up'
           return dispatch(
             setActiveNote(
               notes[notes.findIndex((n) => n._id === activeNote) - 1]?._id ||
