@@ -68,6 +68,7 @@ export default function Notes({
                   ? "#f4f6fb"
                   : "white",
                 cursor: "pointer",
+                border: "none",
               }}
             >
               <Typography.Text

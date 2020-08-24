@@ -11,7 +11,10 @@ export default function KeyboardGuide({ style }: { style?: CSSProperties }) {
       Hit <Typography.Text keyboard>enter</Typography.Text> to edit and{" "}
       <Typography.Text keyboard>esc</Typography.Text> to come back when editing.
       <br />
-      Select a note by hitting <Typography.Text keyboard>x</Typography.Text> and <Typography.Text keyboard>esc</Typography.Text> to deselect all.
+      Select a note by hitting <Typography.Text keyboard>
+        x
+      </Typography.Text> and <Typography.Text keyboard>esc</Typography.Text> to
+      deselect all.
     </Typography.Text>
   );
 }
