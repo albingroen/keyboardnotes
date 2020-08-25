@@ -8,7 +8,11 @@ import {
   addSelectedNote,
   removeSelectedNote,
 } from "../../store/ducks/note/actions";
-import { createNote, deleteNote } from "../../store/ducks/note/operation";
+import {
+  createNote,
+  deleteNote,
+  browseNotes,
+} from "../../store/ducks/note/operation";
 import Notes from "../presentation/notes";
 
 export default function NotesContainer() {
@@ -26,22 +30,13 @@ export default function NotesContainer() {
 
       const token = await getAccessTokenSilently();
 
-      const getNextNote = (dir: "up" | "down") => {
-        return (
-          notes[
-            notes.findIndex((n) => n._id === activeNote) +
-              (dir === "up" ? -1 : 1)
-          ]?._id || activeNote
-        );
-      };
-
       switch (e.keyCode) {
         case 74: // 'j'
         case 40: // 'down'
-          return dispatch(setActiveNote(getNextNote("down")));
+          return dispatch(browseNotes("down"));
         case 75: // 'k'
         case 38: // 'up'
-          return dispatch(setActiveNote(getNextNote("up")));
+          return dispatch(browseNotes("up"));
         case 13: // 'enter'
           e.preventDefault();
           return history.push(`/notes/${activeNote}`);
@@ -72,12 +67,11 @@ export default function NotesContainer() {
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [
-    notes,
-    history,
     activeNote,
-    selectedNotes,
-    getAccessTokenSilently,
     dispatch,
+    getAccessTokenSilently,
+    history,
+    selectedNotes,
     spotlight.isOpen,
   ]);
 

@@ -14,6 +14,7 @@ import {
   removeNote,
   removeNoteSuccess,
   removeNoteError,
+  setActiveNote,
 } from "./actions";
 import {
   getNotes as _getNotes,
@@ -90,4 +91,21 @@ export const deleteNote = (
   } catch (err) {
     dispatch(removeNoteError(err.message));
   }
+};
+
+export const browseNotes = (
+  direction: "up" | "down"
+): ThunkAction<void, AppState, unknown, AppActions> => async (
+  dispatch,
+  getState
+) => {
+  const { notes, activeNote } = getState().note;
+
+  const nextNoteId =
+    notes[
+      notes.findIndex((n) => n._id === activeNote) +
+        (direction === "up" ? -1 : 1)
+    ]?._id || activeNote;
+
+  dispatch(setActiveNote(nextNoteId));
 };

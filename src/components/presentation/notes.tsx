@@ -60,12 +60,7 @@ export default function Notes({
             const isActive = note._id === activeNote;
 
             return (
-              <motion.div
-                transition={{ duration: 0.2 }}
-                exit={{ x: 300, opacity: 0 }}
-                key={note._id}
-                layout
-              >
+              <motion.div exit={{ x: 300, opacity: 0 }} key={note._id} layout>
                 <List.Item
                   onClick={() => onNoteClick(note._id)}
                   onMouseEnter={() => onMouseEnter(note._id)}
