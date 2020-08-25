@@ -31,7 +31,7 @@ export default function Note({
           }}
         >
           <div style={{ flex: 1 }}>
-            <ReactMarkdown source={value} />
+            <ReactMarkdown className="markdown" source={value} />
           </div>
 
           <ContextFooter />

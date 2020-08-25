@@ -38,6 +38,7 @@ export default function Notes({
           <div style={{ flex: 1 }}>
             <ReactMarkdown
               source={notes.find((note) => note._id === activeNote)?.body}
+              className="markdown"
             />
           </div>
 
