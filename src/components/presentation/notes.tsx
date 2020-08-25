@@ -1,8 +1,8 @@
 import React from "react";
 import { List, Typography } from "antd";
 import moment from "moment";
-import ReactMarkdown from "react-markdown";
 import { INote } from "../../types";
+import Editor from "rich-markdown-editor";
 import ContextFooter from "../container/context-footer";
 import Page from "./page";
 
@@ -23,6 +23,8 @@ export default function Notes({
   onMouseEnter,
   selectedNotes,
 }: INotesProps) {
+  const currentNoteValue = notes.find((note) => note._id === activeNote)?.body;
+
   return (
     <Page
       right={
@@ -36,9 +38,12 @@ export default function Notes({
           }}
         >
           <div style={{ flex: 1 }}>
-            <ReactMarkdown
-              source={notes.find((note) => note._id === activeNote)?.body}
+            <Editor
+              defaultValue={currentNoteValue}
+              value={currentNoteValue}
               className="markdown"
+              onChange={() => {}}
+              readOnly
             />
           </div>
 

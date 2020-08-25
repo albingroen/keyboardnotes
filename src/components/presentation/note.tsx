@@ -1,6 +1,6 @@
 import React, { ChangeEvent } from "react";
 import { Divider, Typography } from "antd";
-import ReactMarkdown from "react-markdown";
+import Editor from "rich-markdown-editor";
 import ContextFooter from "../container/context-footer";
 import Page from "./page";
 
@@ -31,7 +31,13 @@ export default function Note({
           }}
         >
           <div style={{ flex: 1 }}>
-            <ReactMarkdown className="markdown" source={value} />
+            <Editor
+              className="markdown"
+              defaultValue={value}
+              onChange={() => {}}
+              value={value}
+              readOnly
+            />
           </div>
 
           <ContextFooter />
