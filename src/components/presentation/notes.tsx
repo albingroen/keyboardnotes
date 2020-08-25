@@ -92,8 +92,10 @@ export default function Notes({
               }}
             >
               <Typography.Text
-                strong
-                style={{ color: isSelected ? "white" : "inherit" }}
+                style={{
+                  color: isSelected ? "white" : "inherit",
+                  fontWeight: 500,
+                }}
               >
                 {note.title}
               </Typography.Text>
