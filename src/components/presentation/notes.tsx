@@ -4,6 +4,7 @@ import moment from "moment";
 import { INote } from "../../types";
 import Editor from "rich-markdown-editor";
 import ContextFooter from "../container/context-footer";
+import { motion, AnimatePresence } from "framer-motion";
 import Page from "./page";
 
 interface INotesProps {
@@ -51,64 +52,62 @@ export default function Notes({
         </div>
       }
     >
-      <List
-        size="small"
-        bordered={false}
-        dataSource={notes}
-        loading={isLoading}
-        locale={{
-          emptyText: (
-            <Typography.Text type="secondary">
-              Hit <Typography.Text keyboard>c</Typography.Text> to create a note
-            </Typography.Text>
-          ),
-        }}
-        renderItem={(note) => {
-          const isSelected = selectedNotes.includes(note._id);
-          const isActive = note._id === activeNote;
+      <div>
+        <AnimatePresence>
+          {notes.map((note) => {
+            const isSelected = selectedNotes.includes(note._id);
+            const isActive = note._id === activeNote;
 
-          return (
-            <List.Item
-              onClick={() => onNoteClick(note._id)}
-              onMouseEnter={() => onMouseEnter(note._id)}
-              style={{
-                border: "none",
-                borderLeft: "4px solid white",
-                background: isSelected
-                  ? "#54acdc"
-                  : isActive
-                  ? "#f4f6fb"
-                  : "white",
-                borderLeftColor: isSelected
-                  ? isActive
-                    ? "white"
-                    : "#54acdc"
-                  : isActive
-                  ? "#aeb1dd"
-                  : "white",
-                cursor: "pointer",
-                padding: "0.5rem 3rem",
-                paddingRight: "2rem",
-              }}
-            >
-              <Typography.Text
-                style={{
-                  color: isSelected ? "white" : "inherit",
-                  fontWeight: 500,
-                }}
+            return (
+              <motion.div
+                transition={{ duration: 0.2 }}
+                exit={{ x: 300, opacity: 0 }}
+                key={note._id}
+                layout
               >
-                {note.title}
-              </Typography.Text>
-              <Typography.Text
-                style={{ color: isSelected ? "white" : "#888" }}
-                type="secondary"
-              >
-                {moment(note.createdAt).format("DD MMM HH:mm")}
-              </Typography.Text>
-            </List.Item>
-          );
-        }}
-      />
+                <List.Item
+                  onClick={() => onNoteClick(note._id)}
+                  onMouseEnter={() => onMouseEnter(note._id)}
+                  style={{
+                    border: "none",
+                    borderLeft: "4px solid white",
+                    background: isSelected
+                      ? "#54acdc"
+                      : isActive
+                      ? "#f4f6fb"
+                      : "white",
+                    borderLeftColor: isSelected
+                      ? isActive
+                        ? "white"
+                        : "#54acdc"
+                      : isActive
+                      ? "#aeb1dd"
+                      : "white",
+                    cursor: "pointer",
+                    padding: "0.5rem 3rem",
+                    paddingRight: "2rem",
+                  }}
+                >
+                  <Typography.Text
+                    style={{
+                      color: isSelected ? "white" : "inherit",
+                      fontWeight: 500,
+                    }}
+                  >
+                    {note.title}
+                  </Typography.Text>
+                  <Typography.Text
+                    style={{ color: isSelected ? "white" : "#888" }}
+                    type="secondary"
+                  >
+                    {moment(note.createdAt).format("DD MMM HH:mm")}
+                  </Typography.Text>
+                </List.Item>
+              </motion.div>
+            );
+          })}
+        </AnimatePresence>
+      </div>
     </Page>
   );
 }

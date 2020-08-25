@@ -27,7 +27,7 @@ export default function Spotlight({
       <div style={wrapperStyle}>
         <AutoComplete
           placeholder="Command palette..."
-          style={{ width: "100%" }}
+          style={{ width: "100%", boxShadow: '0px 5px 30px 0px rgba(0,0,0,0.2)' }}
           onSelect={onSelect}
           options={options.map((option) => {
             if (option.command) {
