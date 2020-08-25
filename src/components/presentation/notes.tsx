@@ -35,10 +35,11 @@ export default function Notes({
             display: "flex",
             flexDirection: "column",
             alignItems: "flex-start",
+            overflowY: "auto",
             height: "100%",
           }}
         >
-          <div style={{ flex: 1 }}>
+          <div style={{ flex: 1, marginBottom: "3rem" }}>
             <Editor
               defaultValue={currentNoteValue}
               value={currentNoteValue}

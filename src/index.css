@@ -34,3 +34,7 @@ ol {
 .markdown li p {
   display: inline;
 }
+
+.markdown div:read-only {
+  background: none;
+}
