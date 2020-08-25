@@ -61,6 +61,7 @@ export default function Note({
         </Typography.Title>
         <Divider />
         <textarea
+          autoFocus
           style={{ flex: 1, width: "100%", border: "none", fontSize: "1.1em" }}
           placeholder="Start jotting down your thoughts (markdown is supported)"
           onChange={onChange}

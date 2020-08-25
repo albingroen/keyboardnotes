@@ -40,6 +40,7 @@ export default function NotesContainer() {
         case 38: // 'up'
           return dispatch(setActiveNote(getNextNote("up")));
         case 13: // 'enter'
+          e.preventDefault()
           return history.push(`/notes/${activeNote}`);
         case 67: // 'c'
           return dispatch(createNote({ token, history }));
