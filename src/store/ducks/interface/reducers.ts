@@ -13,6 +13,9 @@ const initialState: IInterfaceState = {
       ? localStorage.getItem("shortcuts") === "true"
       : true,
   },
+  spotlight: {
+    isOpen: false,
+  },
 };
 
 export default function reducer(

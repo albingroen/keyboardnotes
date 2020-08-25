@@ -7,18 +7,21 @@ import { patchNote } from "../../store/ducks/note/operation";
 import Note from "../presentation/note";
 
 export default function NoteContainer() {
+  const state = useSelector((state: AppState) => state);
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useDispatch();
   const match = useRouteMatch();
   const history = useHistory();
 
-  const note = useSelector((state: AppState) => state.note.notes).find(
+  const note = state.note.notes.find(
     ({ _id }) => _id === (match as any).params.id
   );
 
   // Add keyboard listeners
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (state.interface.spotlight.isOpen) return;
+
       switch (e.keyCode) {
         case 27: // 'esc'
           return history.push("/");
@@ -27,7 +30,7 @@ export default function NoteContainer() {
 
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [history]);
+  }, [history, state.interface.spotlight.isOpen]);
 
   const onChange = async (values: any) => {
     const token = await getAccessTokenSilently();

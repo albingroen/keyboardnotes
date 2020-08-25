@@ -12,15 +12,18 @@ import { createNote, deleteNote } from "../../store/ducks/note/operation";
 import Notes from "../presentation/notes";
 
 export default function NotesContainer() {
-  const { notes, fetchNotesStatus, activeNote, selectedNotes } = useSelector(
-    (state: AppState) => state.note
-  );
+  const state = useSelector((state: AppState) => state);
+  const { notes, fetchNotesStatus, activeNote, selectedNotes } = state.note;
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useDispatch();
   const history = useHistory();
 
+  const { spotlight } = state.interface;
+
   useEffect(() => {
     const handleKeyDown = async (e: KeyboardEvent) => {
+      if (spotlight.isOpen) return;
+
       const token = await getAccessTokenSilently();
 
       const getNextNote = (dir: "up" | "down") => {
@@ -40,7 +43,7 @@ export default function NotesContainer() {
         case 38: // 'up'
           return dispatch(setActiveNote(getNextNote("up")));
         case 13: // 'enter'
-          e.preventDefault()
+          e.preventDefault();
           return history.push(`/notes/${activeNote}`);
         case 67: // 'c'
           return dispatch(createNote({ token, history }));
@@ -75,6 +78,7 @@ export default function NotesContainer() {
     selectedNotes,
     getAccessTokenSilently,
     dispatch,
+    spotlight.isOpen,
   ]);
 
   return (

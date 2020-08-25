@@ -21,6 +21,7 @@ export default function KeyboardGuide({ style }: { style?: CSSProperties }) {
       <KeyValue label="Browse previous note" value="k" />
       <KeyValue label="Edit note" value="enter" />
       <KeyValue label="Return to home" value="esc" />
+      <KeyValue label="Command palette" value="cmd/ctrl+k" />
       <KeyValue label="Show all shortcuts" value="?" />
     </Space>
   );

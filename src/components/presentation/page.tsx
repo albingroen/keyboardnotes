@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "../../store";
 import { toggleInterfaceItem } from "../../store/ducks/interface/operation";
 import KeyboardGuide from "./keyboard-guide";
+import Spotlight from "../container/spotlight";
 
 interface IPageProps {
   left?: React.ReactNode;
@@ -12,7 +13,9 @@ interface IPageProps {
 }
 
 export default function Page({ left, children, right }: IPageProps) {
-  const { shortcuts } = useSelector((state: AppState) => state.interface);
+  const { shortcuts, spotlight } = useSelector(
+    (state: AppState) => state.interface
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -20,6 +23,10 @@ export default function Page({ left, children, right }: IPageProps) {
       switch (e.keyCode) {
         case 191:
           return dispatch(toggleInterfaceItem("shortcuts"));
+        case 75:
+          return e.metaKey && dispatch(toggleInterfaceItem("spotlight"));
+        case 27:
+          return dispatch(toggleInterfaceItem("spotlight", false));
       }
     };
 
@@ -30,6 +37,8 @@ export default function Page({ left, children, right }: IPageProps) {
   return (
     <div style={{ height: "100vh", display: "flex", background: "#fafcff" }}>
       {left && <div style={{ width: "20%" }}>{left}</div>}
+
+      {spotlight.isOpen && <Spotlight />}
 
       <div
         style={{
@@ -48,6 +57,7 @@ export default function Page({ left, children, right }: IPageProps) {
         title="Keyboard shortcuts"
         visible={shortcuts.isOpen}
         onClose={() => dispatch(toggleInterfaceItem("shortcuts"))}
+        width={300}
       >
         <KeyboardGuide />
       </Drawer>
