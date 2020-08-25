@@ -29,5 +29,5 @@ ol {
 
 .markdown input[type="checkbox"] {
   margin-right: 0.75rem; 
-  transform: translateY(1px);
+  transform: translateY(2px);
 }
