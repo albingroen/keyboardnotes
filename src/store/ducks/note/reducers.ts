@@ -16,6 +16,7 @@ import {
   ADD_SELECTED_NOTE,
   REMOVE_SELECTED_NOTE,
   RESET_SELECTED_NOTES,
+  SET_IS_TYPING,
 } from "./types";
 import { INote, ActionStatus } from "../../../types";
 
@@ -23,6 +24,7 @@ export interface INoteState {
   notes: INote[];
   activeNote: string;
   selectedNotes: string[];
+  isTyping: boolean;
 
   fetchNotesStatus: ActionStatus;
   fetchNotesError: string;
@@ -41,6 +43,7 @@ const initialState: INoteState = {
   notes: [],
   activeNote: "",
   selectedNotes: [],
+  isTyping: false,
 
   fetchNotesStatus: "idle",
   fetchNotesError: "",
@@ -181,6 +184,14 @@ export default function reducer(
       return {
         ...state,
         selectedNotes: [],
+      };
+
+    // SET IS TYPING
+
+    case SET_IS_TYPING:
+      return {
+        ...state,
+        isTyping: action.payload,
       };
 
     default:

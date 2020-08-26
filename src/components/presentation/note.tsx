@@ -9,6 +9,7 @@ interface INoteProps {
   valueTitle?: string;
   onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
   onChangeTitle: (value: string) => void;
+  setIsTyping: (value: boolean) => void;
 }
 
 export default function Note({
@@ -16,6 +17,7 @@ export default function Note({
   valueTitle,
   onChange,
   onChangeTitle,
+  setIsTyping,
 }: INoteProps) {
   return (
     <Page
@@ -62,11 +64,13 @@ export default function Note({
         </Typography.Title>
         <Divider />
         <textarea
-          autoFocus
           style={{ flex: 1, width: "100%", border: "none", fontSize: "1.1em" }}
           placeholder="Start jotting down your thoughts (markdown is supported)"
+          onBlur={() => setIsTyping(false)}
+          onFocus={() => setIsTyping(true)}
           onChange={onChange}
           defaultValue={value}
+          autoFocus
         />
       </div>
     </Page>

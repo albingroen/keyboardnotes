@@ -31,6 +31,8 @@ import {
   REMOVE_SELECTED_NOTE,
   IResetSelectedNotesAction,
   RESET_SELECTED_NOTES,
+  ISetIsTypingAction,
+  SET_IS_TYPING,
 } from "./types";
 import { INote } from "../../../types";
 
@@ -140,5 +142,14 @@ export function removeSelectedNote(id: string): IRemoveSelectedNoteAction {
 export function resetSelectedNotes(): IResetSelectedNotesAction {
   return {
     type: RESET_SELECTED_NOTES,
+  };
+}
+
+// SET IS TYPING
+
+export function setIsTyping(payload: boolean): ISetIsTypingAction {
+  return {
+    type: SET_IS_TYPING,
+    payload,
   };
 }

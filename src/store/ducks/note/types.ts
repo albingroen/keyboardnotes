@@ -99,6 +99,15 @@ export interface IResetSelectedNotesAction {
   type: typeof RESET_SELECTED_NOTES;
 }
 
+// SET IS TYPING
+
+export const SET_IS_TYPING = "keyboardnotes/note/SET_IS_TYPING";
+
+export interface ISetIsTypingAction {
+  type: typeof SET_IS_TYPING;
+  payload: boolean;
+}
+
 export type NoteActions =
   | IFetchNotesAction
   | IFetchNotesSuccessAction
@@ -115,4 +124,5 @@ export type NoteActions =
   | ISetActiveNoteAction
   | IAddSelectedNoteAction
   | IRemoveSelectedNoteAction
-  | IResetSelectedNotesAction;
+  | IResetSelectedNotesAction
+  | ISetIsTypingAction;

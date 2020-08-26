@@ -13,26 +13,28 @@ interface IPageProps {
 }
 
 export default function Page({ left, children, right }: IPageProps) {
-  const { shortcuts, spotlight } = useSelector(
-    (state: AppState) => state.interface
-  );
+  const state = useSelector((state: AppState) => state);
+  const { shortcuts, spotlight } = state.interface;
+  const { isTyping } = state.note;
   const dispatch = useDispatch();
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       switch (e.keyCode) {
-        case 191:
+        case 191: // '?'
+          if (isTyping) return;
+
           return dispatch(toggleInterfaceItem("shortcuts"));
-        case 75:
+        case 75: // 'cmd+k'
           return e.metaKey && dispatch(toggleInterfaceItem("spotlight"));
-        case 27:
+        case 27: // 'esc'
           return dispatch(toggleInterfaceItem("spotlight", false));
       }
     };
 
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [dispatch]);
+  }, [dispatch, isTyping]);
 
   return (
     <div style={{ height: "100vh", display: "flex", background: "#fafcff" }}>

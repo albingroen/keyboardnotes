@@ -5,6 +5,7 @@ import { useHistory, useRouteMatch } from "react-router-dom";
 import { AppState } from "../../store";
 import { patchNote } from "../../store/ducks/note/operation";
 import Note from "../presentation/note";
+import { setIsTyping } from "../../store/ducks/note/actions";
 
 export default function NoteContainer() {
   const state = useSelector((state: AppState) => state);
@@ -17,10 +18,12 @@ export default function NoteContainer() {
     ({ _id }) => _id === (match as any).params.id
   );
 
+  const { spotlight, shortcuts } = state.interface;
+
   // Add keyboard listeners
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (state.interface.spotlight.isOpen) return;
+      if (spotlight.isOpen || shortcuts.isOpen) return;
 
       switch (e.keyCode) {
         case 27: // 'esc'
@@ -29,8 +32,11 @@ export default function NoteContainer() {
     };
 
     document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [history, state.interface.spotlight.isOpen]);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      dispatch(setIsTyping(false));
+    };
+  }, [dispatch, history, shortcuts.isOpen, spotlight.isOpen]);
 
   const onChange = async (values: any) => {
     const token = await getAccessTokenSilently();
@@ -43,6 +49,7 @@ export default function NoteContainer() {
   return (
     <Note
       onChange={(e) => onChange({ body: e.currentTarget.value })}
+      setIsTyping={(value) => dispatch(setIsTyping(value))}
       onChangeTitle={(title) => onChange({ title })}
       valueTitle={note?.title}
       value={note?.body}
