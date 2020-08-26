@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Drawer, Alert } from "antd";
+import { Drawer } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "../../store";
 import { toggleInterfaceItem } from "../../store/ducks/interface/operation";
@@ -38,13 +38,9 @@ export default function Page({ left, children, right }: IPageProps) {
 
   return (
     <div>
-      <Alert
-        message="On Aug 26 a database upgrade will be performed due to the large scale of signups on Keyboardnotes. This means there might be some potential downtime."
-        type="warning"
-      />
       <div
         style={{
-          height: "calc(100vh - 40px)",
+          height: "100vh",
           display: "flex",
           background: "#fafcff",
         }}
