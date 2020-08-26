@@ -1,5 +1,6 @@
 import React, { ChangeEvent } from "react";
-import { Divider, Typography } from "antd";
+import ContentEditable from "react-contenteditable";
+import { Divider } from "antd";
 import Editor from "rich-markdown-editor";
 import ContextFooter from "../container/context-footer";
 import Page from "./page";
@@ -55,14 +56,22 @@ export default function Note({
           padding: "2rem",
         }}
       >
-        <Typography.Title
+        {/* <Typography.Title
           editable={{ onChange: onChangeTitle }}
           style={{ margin: 0, padding: 0, lineHeight: 1 }}
           level={3}
         >
           {valueTitle}
-        </Typography.Title>
+        </Typography.Title> */}
+        <ContentEditable
+          className="note-heading"
+          onChange={(e) => onChangeTitle(e.target.value)}
+          html={valueTitle || ""}
+          tagName="h1"
+        />
+
         <Divider />
+
         <textarea
           style={{ flex: 1, width: "100%", border: "none", fontSize: "1.1em" }}
           placeholder="Start jotting down your thoughts (markdown is supported)"

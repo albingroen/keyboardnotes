@@ -38,3 +38,8 @@ ol {
 .markdown div:read-only {
   background: none;
 }
+
+.note-heading {
+  margin: 0;
+  line-height: 1;
+}
