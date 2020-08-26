@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -14,9 +14,11 @@ import {
   browseNotes,
 } from "../../store/ducks/note/operation";
 import Notes from "../presentation/notes";
+import DeleteNotesModal from "./delete-notes-modal";
 
 export default function NotesContainer() {
   const state = useSelector((state: AppState) => state);
+  const [deleteNotesIsOpen, setDeleteNotesIsOpen] = useState<boolean>(false);
   const { notes, fetchNotesStatus, activeNote, selectedNotes } = state.note;
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useDispatch();
@@ -39,23 +41,34 @@ export default function NotesContainer() {
           return dispatch(browseNotes("up"));
         case 13: // 'enter'
           e.preventDefault();
-          return history.push(`/notes/${activeNote}`);
+
+          if (deleteNotesIsOpen) {
+            if (selectedNotes.length) {
+              setDeleteNotesIsOpen(false);
+              return selectedNotes.forEach((id) => {
+                dispatch(deleteNote({ token }, id));
+                dispatch(removeSelectedNote(id));
+              });
+            }
+
+            setDeleteNotesIsOpen(false);
+            return dispatch(deleteNote({ token }, activeNote));
+          } else {
+            return history.push(`/notes/${activeNote}`);
+          }
         case 67: // 'c'
           return dispatch(createNote({ token, history }));
         case 69: // 'e'
-          if (selectedNotes.length) {
-            return selectedNotes.forEach((id) => {
-              dispatch(deleteNote({ token }, id));
-              dispatch(removeSelectedNote(id));
-            });
-          }
-
-          return dispatch(deleteNote({ token }, activeNote));
+          return setDeleteNotesIsOpen(true);
         case 88: // 'x'
           return selectedNotes.includes(activeNote)
             ? dispatch(removeSelectedNote(activeNote))
             : dispatch(addSelectedNote(activeNote));
         case 27: // 'esc'
+          if (deleteNotesIsOpen) {
+            return setDeleteNotesIsOpen(false);
+          }
+
           if (selectedNotes.length) {
             return selectedNotes.forEach((id) => {
               dispatch(removeSelectedNote(id));
@@ -68,6 +81,7 @@ export default function NotesContainer() {
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [
     activeNote,
+    deleteNotesIsOpen,
     dispatch,
     getAccessTokenSilently,
     history,
@@ -76,15 +90,19 @@ export default function NotesContainer() {
   ]);
 
   return (
-    <Notes
-      notes={notes}
-      onNoteClick={(id) => history.push(`/notes/${id}`)}
-      isLoading={fetchNotesStatus === "loading"}
-      selectedNotes={selectedNotes}
-      activeNote={activeNote}
-      onMouseEnter={(id) => {
-        dispatch(setActiveNote(id));
-      }}
-    />
+    <React.Fragment>
+      <DeleteNotesModal visible={deleteNotesIsOpen} />
+
+      <Notes
+        notes={notes}
+        onNoteClick={(id) => history.push(`/notes/${id}`)}
+        isLoading={fetchNotesStatus === "loading"}
+        selectedNotes={selectedNotes}
+        activeNote={activeNote}
+        onMouseEnter={(id) => {
+          dispatch(setActiveNote(id));
+        }}
+      />
+    </React.Fragment>
   );
 }
