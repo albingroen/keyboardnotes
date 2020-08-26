@@ -53,7 +53,7 @@ export default function Notes({
         </div>
       }
     >
-      <div>
+      <div style={{ height: '100%', overflowY: 'auto' }}>
         <AnimatePresence>
           {notes.map((note) => {
             const isSelected = selectedNotes.includes(note._id);
