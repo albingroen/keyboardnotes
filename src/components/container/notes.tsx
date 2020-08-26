@@ -15,6 +15,7 @@ import {
 } from "../../store/ducks/note/operation";
 import Notes from "../presentation/notes";
 import DeleteNotesModal from "./delete-notes-modal";
+import { toggleInterfaceItem } from "../../store/ducks/interface/operation";
 
 export default function NotesContainer() {
   const state = useSelector((state: AppState) => state);
@@ -35,9 +36,11 @@ export default function NotesContainer() {
       switch (e.keyCode) {
         case 74: // 'j'
         case 40: // 'down'
+          dispatch(toggleInterfaceItem('shortcuts', false))
           return dispatch(browseNotes("down"));
         case 75: // 'k'
         case 38: // 'up'
+          dispatch(toggleInterfaceItem('shortcuts', false))
           return dispatch(browseNotes("up"));
         case 13: // 'enter'
           e.preventDefault();
@@ -57,10 +60,13 @@ export default function NotesContainer() {
             return history.push(`/notes/${activeNote}`);
           }
         case 67: // 'c'
+          dispatch(toggleInterfaceItem('shortcuts', false))
           return dispatch(createNote({ token, history }));
         case 69: // 'e'
+          dispatch(toggleInterfaceItem('shortcuts', false))
           return setDeleteNotesIsOpen(true);
         case 88: // 'x'
+          dispatch(toggleInterfaceItem('shortcuts', false))
           return selectedNotes.includes(activeNote)
             ? dispatch(removeSelectedNote(activeNote))
             : dispatch(addSelectedNote(activeNote));
