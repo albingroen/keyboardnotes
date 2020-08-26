@@ -10,12 +10,12 @@ interface IContextFooterProps {
 
 export default function ContextFooter({ user }: IContextFooterProps) {
   return (
-    <Space size="middle" align="center">
+    <Space direction="vertical" size="middle">
+      <Typography.Text type="secondary">{user.email}</Typography.Text>
       <Space size="small" align="center">
         <ShortcutsButton />
         <LogoutButton />
       </Space>
-      <Typography.Text type="secondary">{user.email}</Typography.Text>
     </Space>
   );
 }

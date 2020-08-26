@@ -23,13 +23,13 @@ export default function SpotlightContainer() {
     const token = await getAccessTokenSilently();
 
     switch (event) {
-      case "compose":
+      case "Compose":
         dispatch(createNote({ token, history }));
         break;
-      case "select":
+      case "Select":
         dispatch(addSelectedNote(activeNote));
         break;
-      case "delete":
+      case "Archive (Delete)":
         if (selectedNotes.length) {
           selectedNotes.forEach((note) => {
             dispatch(deleteNote({ token }, note));
@@ -39,7 +39,7 @@ export default function SpotlightContainer() {
           dispatch(deleteNote({ token }, activeNote));
         }
         break;
-      case "logout":
+      case "Sign out (Log out)":
         logout();
     }
 
@@ -51,20 +51,20 @@ export default function SpotlightContainer() {
       options={[
         {
           label: "Compose",
-          value: "compose",
+          value: "Compose",
           command: "c",
         },
         {
           label: "Select",
-          value: "select",
+          value: "Select",
           command: "x",
         },
         {
           label: "Archive (Delete)",
-          value: "delete",
+          value: "Archive (Delete)",
           command: "e",
         },
-        { label: "Sign out (Log out)", value: "logout" },
+        { label: "Sign out (Log out)", value: "Sign out (Log out)" },
       ]}
       onClose={() => dispatch(toggleInterfaceItem("spotlight"))}
       onSelect={onSelect}
