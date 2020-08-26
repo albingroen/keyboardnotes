@@ -14,13 +14,12 @@ const KeyValue: React.FC<{ label: string; value: string }> = ({
 export default function KeyboardGuide({ style }: { style?: CSSProperties }) {
   return (
     <Space direction="vertical" style={{ width: "100%" }}>
-      <KeyValue label="Create note" value="c" />
-      <KeyValue label="Delete note" value="e" />
-      <KeyValue label="Select note" value="x" />
-      <KeyValue label="Browse next note" value="j" />
-      <KeyValue label="Browse previous note" value="k" />
-      <KeyValue label="Edit note" value="enter" />
-      <KeyValue label="Return to home" value="esc" />
+      <KeyValue label="Create note from list" value="c" />
+      <KeyValue label="Delete note in list" value="e" />
+      <KeyValue label="Select note in list" value="x" />
+      <KeyValue label="Browse next note in list" value="j" />
+      <KeyValue label="Browse previous note in list" value="k" />
+      <KeyValue label="Start editing note from list" value="enter" />
       <KeyValue label="Command palette" value="cmd/ctrl+k" />
       <KeyValue label="Show all shortcuts" value="?" />
     </Space>
