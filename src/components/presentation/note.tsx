@@ -36,9 +36,9 @@ export default function Note({
           <div style={{ flex: 1, marginBottom: "3rem" }}>
             <Editor
               className="markdown"
-              defaultValue={value}
+              defaultValue={value || " "}
+              value={value || " "}
               onChange={() => {}}
-              value={value}
               readOnly
             />
           </div>
