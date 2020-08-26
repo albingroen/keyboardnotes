@@ -41,8 +41,8 @@ export default function Notes({
         >
           <div style={{ flex: 1, marginBottom: "3rem" }}>
             <Editor
-              defaultValue={currentNoteValue}
-              value={currentNoteValue}
+              defaultValue={currentNoteValue || " "}
+              value={currentNoteValue || " "}
               className="markdown"
               onChange={() => {}}
               readOnly

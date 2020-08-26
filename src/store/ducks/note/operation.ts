@@ -67,8 +67,6 @@ export const patchNote = (
     ...values,
   };
 
-  console.log(newNote);
-
   dispatch(updateNote());
   dispatch(updateNoteSuccess(newNote));
 
