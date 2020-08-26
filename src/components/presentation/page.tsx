@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Drawer } from "antd";
+import { Drawer, Alert } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "../../store";
 import { toggleInterfaceItem } from "../../store/ducks/interface/operation";
@@ -37,32 +37,44 @@ export default function Page({ left, children, right }: IPageProps) {
   }, [dispatch, isTyping]);
 
   return (
-    <div style={{ height: "100vh", display: "flex", background: "#fafcff" }}>
-      {left && <div style={{ width: "20%" }}>{left}</div>}
-
-      {spotlight.isOpen && <Spotlight />}
-
+    <div>
+      <Alert
+        message="On Aug 26 a database upgrade will be performed due to the large scale of signups on Keyboardnotes. This means there might be some potential downtime."
+        type="warning"
+      />
       <div
         style={{
-          flex: 1,
-          background: "white",
-          boxShadow:
-            "0 0 30px 0 rgba(0, 0, 0, 0.1), 0 0 0.5px 0 rgba(0, 0, 0, 0.05)",
+          height: "calc(100vh - 40px)",
+          display: "flex",
+          background: "#fafcff",
         }}
       >
-        {children}
+        {left && <div style={{ width: "20%" }}>{left}</div>}
+
+        {spotlight.isOpen && <Spotlight />}
+
+        <div
+          style={{
+            flex: 1,
+            background: "white",
+            boxShadow:
+              "0 0 30px 0 rgba(0, 0, 0, 0.1), 0 0 0.5px 0 rgba(0, 0, 0, 0.05)",
+          }}
+        >
+          {children}
+        </div>
+
+        {right && <div style={{ width: "25%" }}>{right}</div>}
+
+        <Drawer
+          title="Keyboard shortcuts"
+          visible={shortcuts.isOpen}
+          onClose={() => dispatch(toggleInterfaceItem("shortcuts"))}
+          width={300}
+        >
+          <KeyboardGuide />
+        </Drawer>
       </div>
-
-      {right && <div style={{ width: "25%" }}>{right}</div>}
-
-      <Drawer
-        title="Keyboard shortcuts"
-        visible={shortcuts.isOpen}
-        onClose={() => dispatch(toggleInterfaceItem("shortcuts"))}
-        width={300}
-      >
-        <KeyboardGuide />
-      </Drawer>
     </div>
   );
 }
