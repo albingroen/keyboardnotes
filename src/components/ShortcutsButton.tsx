@@ -1,16 +1,17 @@
 import React from "react";
-import { Button, Typography, Space } from "antd";
 import { useDispatch } from "react-redux";
 import { toggleInterfaceItem } from "../store/ducks/interface/operation";
+import KeyCommandButton from "./presentation/key-command-button";
 
 export default function ShortcutsButton() {
   const dispatch = useDispatch();
 
   return (
-    <Button onClick={() => dispatch(toggleInterfaceItem("shortcuts"))}>
-      <Space>
-        Shortcuts <Typography.Text keyboard>?</Typography.Text>
-      </Space>
-    </Button>
+    <KeyCommandButton
+      command="?"
+      onClick={() => dispatch(toggleInterfaceItem("shortcuts"))}
+    >
+      Shortcuts
+    </KeyCommandButton>
   );
 }
