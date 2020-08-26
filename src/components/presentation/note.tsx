@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, useRef } from "react";
 import ContentEditable from "react-contenteditable";
 import { Divider } from "antd";
 import Editor from "rich-markdown-editor";
@@ -20,6 +20,12 @@ export default function Note({
   onChangeTitle,
   setIsTyping,
 }: INoteProps) {
+  const text = useRef<any>(valueTitle);
+  
+  if (text.current === undefined) {
+    text.current = valueTitle
+  }
+
   return (
     <Page
       left={<div />}
@@ -56,18 +62,15 @@ export default function Note({
           padding: "2rem",
         }}
       >
-        {/* <Typography.Title
-          editable={{ onChange: onChangeTitle }}
-          style={{ margin: 0, padding: 0, lineHeight: 1 }}
-          level={3}
-        >
-          {valueTitle}
-        </Typography.Title> */}
         <ContentEditable
-          className="note-heading"
-          onChange={(e) => onChangeTitle(e.target.value)}
-          html={valueTitle || ""}
           tagName="h1"
+          className="note-heading"
+          onFocus={e => document.execCommand("selectAll", false)}
+          html={text.current}
+          onChange={(e) => {
+            onChangeTitle(e.target.value)
+            text.current = e.target.value
+          }}
         />
 
         <Divider />
