@@ -1,5 +1,5 @@
 import React from "react";
-import { List, Typography } from "antd";
+import { List, Typography, Spin } from "antd";
 import moment from "moment";
 import { INote } from "../../types";
 import Editor from "rich-markdown-editor";
@@ -55,7 +55,26 @@ export default function Notes({
     >
       <div style={{ height: "100%", overflowY: "auto" }}>
         <AnimatePresence>
-          {notes.length ? (
+          {isLoading || !notes ? (
+            <motion.div
+              style={{
+                display: "flex",
+                padding: "1rem",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+              layout
+            >
+              {isLoading ? (
+                <Spin />
+              ) : (
+                <Typography.Text style={{ textAlign: "center" }}>
+                  Hit <Typography.Text keyboard>c</Typography.Text> to create a
+                  new note
+                </Typography.Text>
+              )}
+            </motion.div>
+          ) : (
             notes.map((note) => {
               const isSelected = selectedNotes.includes(note._id);
               const isActive = note._id === activeNote;
@@ -103,19 +122,6 @@ export default function Notes({
                 </motion.div>
               );
             })
-          ) : (
-            <motion.div layout>
-              <Typography.Text
-                style={{
-                  textAlign: "center",
-                  padding: "1rem",
-                  display: "block",
-                }}
-              >
-                Hit <Typography.Text keyboard>c</Typography.Text> to create a
-                new note
-              </Typography.Text>
-            </motion.div>
           )}
         </AnimatePresence>
       </div>
