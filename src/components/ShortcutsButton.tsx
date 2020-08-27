@@ -10,6 +10,7 @@ export default function ShortcutsButton() {
     <KeyCommandButton
       command="?"
       onClick={() => dispatch(toggleInterfaceItem("shortcuts"))}
+      style={{ background: 'none' }}
     >
       Shortcuts
     </KeyCommandButton>

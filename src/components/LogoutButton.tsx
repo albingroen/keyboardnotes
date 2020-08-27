@@ -9,6 +9,7 @@ const LogoutButton = () => {
     <KeyCommandButton
       command="cmd/ctrl+k"
       onClick={() => logout({ returnTo: window.location.origin })}
+      style={{ background: 'none' }}
       danger
       ghost
     >
