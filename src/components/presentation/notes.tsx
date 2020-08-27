@@ -55,7 +55,7 @@ export default function Notes({
     >
       <div style={{ height: "100%", overflowY: "auto" }}>
         <AnimatePresence>
-          {isLoading || !notes ? (
+          {isLoading || !notes.length ? (
             <motion.div
               style={{
                 display: "flex",
