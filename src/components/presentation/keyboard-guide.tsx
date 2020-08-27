@@ -20,6 +20,7 @@ export default function KeyboardGuide({ style }: { style?: CSSProperties }) {
       <KeyValue label="Browse next note in list" value="j" />
       <KeyValue label="Browse previous note in list" value="k" />
       <KeyValue label="Start editing note from list" value="enter" />
+      <KeyValue label="Go backwards" value="escape" />
       <KeyValue label="Command palette" value="cmd/ctrl+k" />
       <KeyValue label="Show all shortcuts" value="?" />
     </Space>

@@ -21,9 +21,9 @@ export default function Note({
   setIsTyping,
 }: INoteProps) {
   const text = useRef<any>(valueTitle);
-  
+
   if (text.current === undefined) {
-    text.current = valueTitle
+    text.current = valueTitle;
   }
 
   return (
@@ -65,11 +65,11 @@ export default function Note({
         <ContentEditable
           tagName="h1"
           className="note-heading"
-          onFocus={e => document.execCommand("selectAll", false)}
+          onFocus={(e) => document.execCommand("selectAll", false)}
           html={text.current}
           onChange={(e) => {
-            onChangeTitle(e.target.value)
-            text.current = e.target.value
+            onChangeTitle(e.target.value);
+            text.current = e.target.value;
           }}
         />
 

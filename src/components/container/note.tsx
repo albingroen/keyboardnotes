@@ -34,7 +34,7 @@ export default function NoteContainer() {
     document.addEventListener("keydown", handleKeyDown);
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
-      document.getSelection()?.removeAllRanges()
+      document.getSelection()?.removeAllRanges();
       dispatch(setIsTyping(false));
     };
   }, [dispatch, history, shortcuts.isOpen, spotlight.isOpen]);

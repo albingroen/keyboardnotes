@@ -53,55 +53,70 @@ export default function Notes({
         </div>
       }
     >
-      <div style={{ height: '100%', overflowY: 'auto' }}>
+      <div style={{ height: "100%", overflowY: "auto" }}>
         <AnimatePresence>
-          {notes.map((note) => {
-            const isSelected = selectedNotes.includes(note._id);
-            const isActive = note._id === activeNote;
+          {notes.length ? (
+            notes.map((note) => {
+              const isSelected = selectedNotes.includes(note._id);
+              const isActive = note._id === activeNote;
 
-            return (
-              <motion.div exit={{ x: 300, opacity: 0 }} key={note._id} layout>
-                <List.Item
-                  onClick={() => onNoteClick(note._id)}
-                  onMouseEnter={() => onMouseEnter(note._id)}
-                  style={{
-                    border: "none",
-                    borderLeft: "4px solid white",
-                    background: isSelected
-                      ? "#54acdc"
-                      : isActive
-                      ? "#f4f6fb"
-                      : "white",
-                    borderLeftColor: isSelected
-                      ? isActive
-                        ? "white"
-                        : "#54acdc"
-                      : isActive
-                      ? "#aeb1dd"
-                      : "white",
-                    cursor: "pointer",
-                    padding: "0.5rem 3rem",
-                    paddingRight: "2rem",
-                  }}
-                >
-                  <Typography.Text
+              return (
+                <motion.div exit={{ x: 300, opacity: 0 }} key={note._id} layout>
+                  <List.Item
+                    onClick={() => onNoteClick(note._id)}
+                    onMouseEnter={() => onMouseEnter(note._id)}
                     style={{
-                      color: isSelected ? "white" : "inherit",
-                      fontWeight: 500,
+                      border: "none",
+                      borderLeft: "4px solid white",
+                      background: isSelected
+                        ? "#54acdc"
+                        : isActive
+                        ? "#f4f6fb"
+                        : "white",
+                      borderLeftColor: isSelected
+                        ? isActive
+                          ? "white"
+                          : "#54acdc"
+                        : isActive
+                        ? "#aeb1dd"
+                        : "white",
+                      cursor: "pointer",
+                      padding: "0.5rem 3rem",
+                      paddingRight: "2rem",
                     }}
                   >
-                    {note.title}
-                  </Typography.Text>
-                  <Typography.Text
-                    style={{ color: isSelected ? "white" : "#888" }}
-                    type="secondary"
-                  >
-                    {moment(note.createdAt).format("DD MMM HH:mm")}
-                  </Typography.Text>
-                </List.Item>
-              </motion.div>
-            );
-          })}
+                    <Typography.Text
+                      style={{
+                        color: isSelected ? "white" : "inherit",
+                        fontWeight: 500,
+                      }}
+                    >
+                      {note.title}
+                    </Typography.Text>
+                    <Typography.Text
+                      style={{ color: isSelected ? "white" : "#888" }}
+                      type="secondary"
+                    >
+                      {moment(note.createdAt).format("DD MMM HH:mm")}
+                    </Typography.Text>
+                  </List.Item>
+                </motion.div>
+              );
+            })
+          ) : (
+            <motion.div layout>
+              <Typography.Text
+                style={{
+                  textAlign: "center",
+                  padding: "1rem",
+                  display: "block",
+                }}
+              >
+                Hit <Typography.Text keyboard>c</Typography.Text> to create a
+                new note
+              </Typography.Text>
+            </motion.div>
+          )}
         </AnimatePresence>
       </div>
     </Page>
