@@ -86,6 +86,12 @@ export default function Note({
         <ContentEditable
           tagName="h1"
           className="note-heading"
+          onKeyDown={(e) => {
+            if (e.keyCode === 13) {
+              e.preventDefault();
+              e.stopPropagation();
+            }
+          }}
           onFocus={(e) => document.execCommand("selectAll", false)}
           html={text.current}
           onChange={(e) => {
