@@ -44,7 +44,9 @@ export default function Note({
           <div style={{ flex: 1, marginBottom: "3rem" }}>
             <Space>
               <Link to="/">
-                <KeyCommandButton command="esc">Back</KeyCommandButton>
+                <KeyCommandButton style={{ background: "none" }} command="esc">
+                  Back
+                </KeyCommandButton>
               </Link>
             </Space>
           </div>
