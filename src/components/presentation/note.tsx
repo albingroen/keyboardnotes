@@ -1,8 +1,10 @@
 import React, { ChangeEvent, useRef } from "react";
+import { Divider, Space } from "antd";
 import ContentEditable from "react-contenteditable";
-import { Divider } from "antd";
+import { Link } from "react-router-dom";
 import Editor from "rich-markdown-editor";
 import ContextFooter from "../container/context-footer";
+import KeyCommandButton from "./key-command-button";
 import Page from "./page";
 
 interface INoteProps {
@@ -28,7 +30,26 @@ export default function Note({
 
   return (
     <Page
-      left={<div />}
+      left={
+        <div
+          style={{
+            padding: "1.5rem 2rem",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-start",
+            overflowY: "auto",
+            height: "100%",
+          }}
+        >
+          <div style={{ flex: 1, marginBottom: "3rem" }}>
+            <Space>
+              <Link to="/">
+                <KeyCommandButton command="esc">Back</KeyCommandButton>
+              </Link>
+            </Space>
+          </div>
+        </div>
+      }
       right={
         <div
           style={{
