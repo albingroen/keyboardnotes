@@ -38,10 +38,10 @@ export default function Page({ left, children, right }: IPageProps) {
 
   return (
     <div>
-      <Alert
+      {/* <Alert
         message="On Aug 28 - Aug 29, due to the launch of the Keyboardnotes landing page, there may be downtime."
         type="warning"
-      />
+      /> */}
 
       <div
         style={{
