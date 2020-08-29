@@ -17,12 +17,17 @@ export default function SpotlightContainer() {
   const history = useHistory();
 
   const state = useSelector((state: AppState) => state);
-  const { getAccessTokenSilently, logout } = useAuth0();
+  const {
+    getAccessTokenSilently,
+    isAuthenticated,
+    logout,
+    loginWithRedirect,
+  } = useAuth0();
 
   const { activeNote, selectedNotes } = state.note;
 
   const onSelect = async (event: string) => {
-    const token = await getAccessTokenSilently();
+    const token = isAuthenticated ? await getAccessTokenSilently() : undefined;
 
     switch (event) {
       case "Compose":
@@ -44,48 +49,58 @@ export default function SpotlightContainer() {
           dispatch(deleteNote({ token }, activeNote));
         }
         break;
+      case "Sign in (Log in)":
+        loginWithRedirect();
+        break;
       case "Sign out (Log out)":
         logout();
+        break;
     }
 
     dispatch(toggleInterfaceItem("spotlight", false));
   };
 
+  const getOptions = () => {
+    return match.path === "/notes/:id"
+      ? [
+          {
+            label: "Compose",
+            value: "Compose",
+          },
+          {
+            label: "Archive (Delete)",
+            value: "Archive (Delete)",
+          },
+          isAuthenticated
+            ? { label: "Sign out (Log out)", value: "Sign out (Log out)" }
+            : { label: "Sign in (Log in)", value: "Sign in (Log in)" },
+        ]
+      : [
+          {
+            label: "Compose",
+            value: "Compose",
+            command: "c",
+          },
+          {
+            label: "Select",
+            value: "Select",
+            command: "x",
+          },
+          {
+            label: "Archive (Delete)",
+            value: "Archive (Delete)",
+            command: "e",
+          },
+          isAuthenticated
+            ? { label: "Sign out (Log out)", value: "Sign out (Log out)" }
+            : { label: "Sign in (Log in)", value: "Sign in (Log in)" },
+        ];
+  };
+
   return (
     <Spotlight
-      options={
-        match.path === "/notes/:id"
-          ? [
-              {
-                label: "Compose",
-                value: "Compose",
-              },
-              {
-                label: "Archive (Delete)",
-                value: "Archive (Delete)",
-              },
-              { label: "Sign out (Log out)", value: "Sign out (Log out)" },
-            ]
-          : [
-              {
-                label: "Compose",
-                value: "Compose",
-                command: "c",
-              },
-              {
-                label: "Select",
-                value: "Select",
-                command: "x",
-              },
-              {
-                label: "Archive (Delete)",
-                value: "Archive (Delete)",
-                command: "e",
-              },
-              { label: "Sign out (Log out)", value: "Sign out (Log out)" },
-            ]
-      }
       onClose={() => dispatch(toggleInterfaceItem("spotlight"))}
+      options={getOptions()}
       onSelect={onSelect}
     />
   );

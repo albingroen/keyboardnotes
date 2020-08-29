@@ -21,9 +21,11 @@ export default function NotesContainer() {
   const state = useSelector((state: AppState) => state);
   const [deleteNotesIsOpen, setDeleteNotesIsOpen] = useState<boolean>(false);
   const { notes, fetchNotesStatus, activeNote, selectedNotes } = state.note;
-  const { getAccessTokenSilently } = useAuth0();
+  const { getAccessTokenSilently, isAuthenticated } = useAuth0();
   const dispatch = useDispatch();
   const history = useHistory();
+
+  console.log(isAuthenticated);
 
   const { spotlight } = state.interface;
 
@@ -31,7 +33,9 @@ export default function NotesContainer() {
     const handleKeyDown = async (e: KeyboardEvent) => {
       if (spotlight.isOpen) return;
 
-      const token = await getAccessTokenSilently();
+      const token = isAuthenticated
+        ? await getAccessTokenSilently()
+        : undefined;
 
       switch (e.keyCode) {
         case 74: // 'j'
@@ -60,6 +64,7 @@ export default function NotesContainer() {
             return history.push(`/notes/${activeNote}`);
           }
         case 67: // 'c'
+          e.preventDefault();
           dispatch(toggleInterfaceItem("shortcuts", false));
           return dispatch(createNote({ token, history }));
         case 69: // 'e'
@@ -91,6 +96,7 @@ export default function NotesContainer() {
     dispatch,
     getAccessTokenSilently,
     history,
+    isAuthenticated,
     selectedNotes,
     spotlight.isOpen,
   ]);

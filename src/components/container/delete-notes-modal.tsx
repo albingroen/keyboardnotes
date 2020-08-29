@@ -1,11 +1,11 @@
 import React from "react";
 import Modal from "antd/lib/modal/Modal";
 import { Typography, Space } from "antd";
-import { deleteNote } from "../../http/note";
 import { removeSelectedNote } from "../../store/ducks/note/actions";
 import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "../../store";
 import { useAuth0 } from "@auth0/auth0-react";
+import { deleteNote } from "../../store/ducks/note/operation";
 
 interface IDeleteNotesProps {
   visible: boolean;
@@ -14,7 +14,7 @@ interface IDeleteNotesProps {
 export default function DeleteNotesModal({ visible }: IDeleteNotesProps) {
   const state = useSelector((state: AppState) => state);
   const { activeNote, selectedNotes } = state.note;
-  const { getAccessTokenSilently } = useAuth0();
+  const { getAccessTokenSilently, isAuthenticated } = useAuth0();
   const dispatch = useDispatch();
 
   return (
@@ -42,7 +42,9 @@ export default function DeleteNotesModal({ visible }: IDeleteNotesProps) {
       cancelButtonProps={{ style: { paddingRight: 0 } }}
       okButtonProps={{ danger: true, style: { paddingRight: 0 } }}
       onOk={async () => {
-        const token = await getAccessTokenSilently();
+        const token = isAuthenticated
+          ? await getAccessTokenSilently()
+          : undefined;
 
         if (selectedNotes.length) {
           return selectedNotes.forEach((id) => {

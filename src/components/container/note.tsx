@@ -9,7 +9,7 @@ import { setIsTyping } from "../../store/ducks/note/actions";
 
 export default function NoteContainer() {
   const state = useSelector((state: AppState) => state);
-  const { getAccessTokenSilently } = useAuth0();
+  const { getAccessTokenSilently, isAuthenticated } = useAuth0();
   const dispatch = useDispatch();
   const match = useRouteMatch();
   const history = useHistory();
@@ -40,7 +40,7 @@ export default function NoteContainer() {
   }, [dispatch, history, shortcuts.isOpen, spotlight.isOpen]);
 
   const onChange = async (values: any) => {
-    const token = await getAccessTokenSilently();
+    const token = isAuthenticated ? await getAccessTokenSilently() : undefined;
 
     if (!note) return;
 

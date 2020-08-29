@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
-import { Drawer } from "antd";
+import { Drawer, Alert } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "../../store";
 import { toggleInterfaceItem } from "../../store/ducks/interface/operation";
 import KeyboardGuide from "./keyboard-guide";
 import Spotlight from "../container/spotlight";
+import { useAuth0 } from "@auth0/auth0-react";
 
 interface IPageProps {
   left?: React.ReactNode;
@@ -15,6 +16,7 @@ interface IPageProps {
 export default function Page({ left, children, right }: IPageProps) {
   const state = useSelector((state: AppState) => state);
   const { shortcuts, spotlight } = state.interface;
+  const { isAuthenticated } = useAuth0();
   const { isTyping } = state.note;
   const dispatch = useDispatch();
 
@@ -43,9 +45,17 @@ export default function Page({ left, children, right }: IPageProps) {
         type="warning"
       /> */}
 
+      {!isAuthenticated && (
+        <Alert
+          message="You are currently not logged in to Keyboardnotes. Nothing you do here will be saved. This is just for trying out the app."
+          type="error"
+          showIcon
+        />
+      )}
+
       <div
         style={{
-          height: "100vh",
+          height: isAuthenticated ? "100vh" : "calc(100vh - 40px)",
           display: "flex",
           background: "#fafcff",
         }}

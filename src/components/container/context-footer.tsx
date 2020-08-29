@@ -3,7 +3,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import ContextFooter from "../presentation/context-footer";
 
 export default function ContextFooterContainer() {
-  const { user } = useAuth0();
+  const { user, loginWithRedirect } = useAuth0();
 
-  return <ContextFooter user={user} />;
+  return <ContextFooter login={loginWithRedirect} user={user} />;
 }
