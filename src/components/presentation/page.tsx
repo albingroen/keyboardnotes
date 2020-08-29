@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Drawer, Alert } from "antd";
+import { Drawer } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "../../store";
 import { toggleInterfaceItem } from "../../store/ducks/interface/operation";
