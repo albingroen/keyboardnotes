@@ -1,9 +1,9 @@
 import React from "react";
-import { Space, Typography } from "antd";
+import { Space, Typography, Button } from "antd";
 import LogoutButton from "../LogoutButton";
 import ShortcutsButton from "../ShortcutsButton";
 import { IUser } from "../../types";
-import KeyCommandButton from "./key-command-button";
+import KeyCommandTooltip from "./key-command-tooltip";
 
 interface IContextFooterProps {
   user: IUser;
@@ -19,14 +19,15 @@ export default function ContextFooter({ user, login }: IContextFooterProps) {
         {user ? (
           <LogoutButton />
         ) : (
-          <KeyCommandButton
-            onClick={() => login()}
-            command="cmd/ctrl + k"
-            type="primary"
-            style={{ color: "white" }}
-          >
-            Log in
-          </KeyCommandButton>
+          <KeyCommandTooltip title="Log in" command="cmd/ctrl + k">
+            <Button
+              onClick={() => login()}
+              type="primary"
+              style={{ color: "white" }}
+            >
+              Log in
+            </Button>
+          </KeyCommandTooltip>
         )}
       </Space>
     </Space>

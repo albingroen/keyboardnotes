@@ -1,11 +1,11 @@
 import React, { ChangeEvent, useRef } from "react";
-import { Divider, Space } from "antd";
+import { Divider, Space, Button } from "antd";
 import ContentEditable from "react-contenteditable";
 import { Link } from "react-router-dom";
 import Editor from "rich-markdown-editor";
 import ContextFooter from "../container/context-footer";
-import KeyCommandButton from "./key-command-button";
 import Page from "./page";
+import KeyCommandTooltip from "./key-command-tooltip";
 
 interface INoteProps {
   value?: string;
@@ -46,26 +46,30 @@ export default function Note({
           }}
         >
           <div style={{ flex: 1, marginBottom: "3rem" }}>
-            <Space direction="vertical">
-              <Link to="/">
-                <KeyCommandButton style={{ background: "none" }} command="esc">
-                  Back
-                </KeyCommandButton>
-              </Link>
-              <KeyCommandButton
-                onClick={onClickNextNote}
-                style={{ background: "none" }}
-                command="ctrl+j"
-              >
-                Next
-              </KeyCommandButton>
-              <KeyCommandButton
-                onClick={onClickPreviousNote}
-                style={{ background: "none" }}
-                command="ctrl+k"
-              >
-                Previous
-              </KeyCommandButton>
+            <Space>
+              <KeyCommandTooltip title="Back" command="esc">
+                <Link to="/">
+                  <Button>Back</Button>
+                </Link>
+              </KeyCommandTooltip>
+
+              <KeyCommandTooltip title="Next note" command="ctrl+j">
+                <Button
+                  onClick={onClickNextNote}
+                 
+                >
+                  Next
+                </Button>
+              </KeyCommandTooltip>
+
+              <KeyCommandTooltip title="Previous note" command="ctrl+k">
+                <Button
+                  onClick={onClickPreviousNote}
+                 
+                >
+                  Previous
+                </Button>
+              </KeyCommandTooltip>
             </Space>
           </div>
         </div>
