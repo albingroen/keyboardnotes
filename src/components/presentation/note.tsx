@@ -12,6 +12,8 @@ interface INoteProps {
   valueTitle?: string;
   onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
   onChangeTitle: (value: string) => void;
+  onClickNextNote: () => void;
+  onClickPreviousNote: () => void;
   setIsTyping: (value: boolean) => void;
 }
 
@@ -20,6 +22,8 @@ export default function Note({
   valueTitle,
   onChange,
   onChangeTitle,
+  onClickNextNote,
+  onClickPreviousNote,
   setIsTyping,
 }: INoteProps) {
   const text = useRef<any>(valueTitle);
@@ -42,12 +46,26 @@ export default function Note({
           }}
         >
           <div style={{ flex: 1, marginBottom: "3rem" }}>
-            <Space>
+            <Space direction="vertical">
               <Link to="/">
                 <KeyCommandButton style={{ background: "none" }} command="esc">
                   Back
                 </KeyCommandButton>
               </Link>
+              <KeyCommandButton
+                onClick={onClickNextNote}
+                style={{ background: "none" }}
+                command="ctrl+j"
+              >
+                Next
+              </KeyCommandButton>
+              <KeyCommandButton
+                onClick={onClickPreviousNote}
+                style={{ background: "none" }}
+                command="ctrl+k"
+              >
+                Previous
+              </KeyCommandButton>
             </Space>
           </div>
         </div>

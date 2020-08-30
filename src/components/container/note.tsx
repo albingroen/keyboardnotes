@@ -3,7 +3,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useRouteMatch } from "react-router-dom";
 import { AppState } from "../../store";
-import { patchNote } from "../../store/ducks/note/operation";
+import { patchNote, browseNotes } from "../../store/ducks/note/operation";
 import Note from "../presentation/note";
 import { setIsTyping } from "../../store/ducks/note/actions";
 
@@ -28,6 +28,16 @@ export default function NoteContainer() {
       switch (e.keyCode) {
         case 27: // 'esc'
           return history.push("/");
+        case 74: // 'j'
+          if (!e.ctrlKey) return;
+
+          e.preventDefault();
+          return dispatch(browseNotes({ history }, "down"));
+        case 75: // 'k'
+          if (!e.ctrlKey) return;
+
+          e.preventDefault();
+          return dispatch(browseNotes({ history }, "up"));
       }
     };
 
@@ -52,8 +62,11 @@ export default function NoteContainer() {
       onChange={(e) => onChange({ body: e.currentTarget.value })}
       setIsTyping={(value) => dispatch(setIsTyping(value))}
       onChangeTitle={(title) => onChange({ title })}
+      onClickNextNote={() => dispatch(browseNotes({ history }, "down"))}
+      onClickPreviousNote={() => dispatch(browseNotes({ history }, "up"))}
       valueTitle={note?.title}
       value={note?.body}
+      key={note?._id}
     />
   );
 }

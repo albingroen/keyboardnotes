@@ -25,8 +25,6 @@ export default function NotesContainer() {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  console.log(isAuthenticated);
-
   const { spotlight } = state.interface;
 
   useEffect(() => {
@@ -41,11 +39,11 @@ export default function NotesContainer() {
         case 74: // 'j'
         case 40: // 'down'
           dispatch(toggleInterfaceItem("shortcuts", false));
-          return dispatch(browseNotes("down"));
+          return dispatch(browseNotes({}, "down"));
         case 75: // 'k'
         case 38: // 'up'
           dispatch(toggleInterfaceItem("shortcuts", false));
-          return dispatch(browseNotes("up"));
+          return dispatch(browseNotes({}, "up"));
         case 13: // 'enter'
           e.preventDefault();
 

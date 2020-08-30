@@ -81,7 +81,7 @@ export default function Page({ left, children, right }: IPageProps) {
           title="Keyboard shortcuts"
           visible={shortcuts.isOpen}
           onClose={() => dispatch(toggleInterfaceItem("shortcuts"))}
-          width={300}
+          width={400}
         >
           <KeyboardGuide />
         </Drawer>

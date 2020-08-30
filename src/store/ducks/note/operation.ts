@@ -110,6 +110,7 @@ export const deleteNote = (
 };
 
 export const browseNotes = (
+  requestContext: IRequestContext,
   direction: "up" | "down"
 ): ThunkAction<void, AppState, unknown, AppActions> => async (
   dispatch,
@@ -124,4 +125,8 @@ export const browseNotes = (
     ]?._id || activeNote;
 
   dispatch(setActiveNote(nextNoteId));
+
+  if (requestContext.history) {
+    requestContext.history.push(`/notes/${nextNoteId}`);
+  }
 };
