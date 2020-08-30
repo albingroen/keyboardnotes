@@ -59,7 +59,7 @@ export default function NoteContainer() {
 
   return (
     <Note
-      onChange={(e) => onChange({ body: e.currentTarget.value })}
+      onChange={(body) => onChange({ body })}
       setIsTyping={(value) => dispatch(setIsTyping(value))}
       onChangeTitle={(title) => onChange({ title })}
       onClickNextNote={() => dispatch(browseNotes({ history }, "down"))}

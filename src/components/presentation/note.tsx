@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useRef } from "react";
+import React, { useRef, useState } from "react";
 import { Divider, Space, Button } from "antd";
 import ContentEditable from "react-contenteditable";
 import { Link } from "react-router-dom";
@@ -10,7 +10,7 @@ import KeyCommandTooltip from "./key-command-tooltip";
 interface INoteProps {
   value?: string;
   valueTitle?: string;
-  onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
+  onChange: (e: string) => void;
   onChangeTitle: (value: string) => void;
   onClickNextNote: () => void;
   onClickPreviousNote: () => void;
@@ -18,7 +18,7 @@ interface INoteProps {
 }
 
 export default function Note({
-  value,
+  value: defaultValue,
   valueTitle,
   onChange,
   onChangeTitle,
@@ -26,6 +26,7 @@ export default function Note({
   onClickPreviousNote,
   setIsTyping,
 }: INoteProps) {
+  const [value, setValue] = useState(defaultValue);
   const text = useRef<any>(valueTitle);
 
   if (text.current === undefined) {
@@ -54,21 +55,11 @@ export default function Note({
               </KeyCommandTooltip>
 
               <KeyCommandTooltip title="Next note" command="ctrl+j">
-                <Button
-                  onClick={onClickNextNote}
-                 
-                >
-                  Next
-                </Button>
+                <Button onClick={onClickNextNote}>Next</Button>
               </KeyCommandTooltip>
 
               <KeyCommandTooltip title="Previous note" command="ctrl+k">
-                <Button
-                  onClick={onClickPreviousNote}
-                 
-                >
-                  Previous
-                </Button>
+                <Button onClick={onClickPreviousNote}>Previous</Button>
               </KeyCommandTooltip>
             </Space>
           </div>
@@ -90,7 +81,14 @@ export default function Note({
               className="markdown"
               defaultValue={value || " "}
               value={value || " "}
-              onChange={() => {}}
+              readOnlyWriteCheckboxes
+              onChange={(v) => {
+                const newValue = v();
+                const trimmedNewValue = newValue.substr(0, newValue.length - 4);
+
+                setValue(trimmedNewValue);
+                onChange(trimmedNewValue);
+              }}
               readOnly
             />
           </div>
@@ -117,7 +115,7 @@ export default function Note({
             }
           }}
           onFocus={(e) => document.execCommand("selectAll", false)}
-          html={text.current}
+          html={text.current || ""}
           onChange={(e) => {
             onChangeTitle(e.target.value);
             text.current = e.target.value;
@@ -129,10 +127,15 @@ export default function Note({
         <textarea
           style={{ flex: 1, width: "100%", border: "none", fontSize: "1.1em" }}
           placeholder="Start jotting down your thoughts (markdown is supported)"
+          onChange={(e) => {
+            const newValue = e.currentTarget.value;
+
+            setValue(newValue);
+            onChange(newValue);
+          }}
           onBlur={() => setIsTyping(false)}
           onFocus={() => setIsTyping(true)}
-          onChange={onChange}
-          defaultValue={value}
+          value={value}
           autoFocus
         />
       </div>
