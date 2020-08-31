@@ -64,6 +64,7 @@ export default function NoteContainer() {
       onChangeTitle={(title) => onChange({ title })}
       onClickNextNote={() => dispatch(browseNotes({ history }, "down"))}
       onClickPreviousNote={() => dispatch(browseNotes({ history }, "up"))}
+      notes={state.note.notes}
       valueTitle={note?.title}
       value={note?.body}
       key={note?._id}

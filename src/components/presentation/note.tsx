@@ -6,8 +6,10 @@ import Editor from "rich-markdown-editor";
 import ContextFooter from "../container/context-footer";
 import Page from "./page";
 import KeyCommandTooltip from "./key-command-tooltip";
+import { INote } from "../../types";
 
 interface INoteProps {
+  notes: INote[];
   value?: string;
   valueTitle?: string;
   onChange: (e: string) => void;
@@ -21,6 +23,7 @@ export default function Note({
   value: defaultValue,
   valueTitle,
   onChange,
+  notes,
   onChangeTitle,
   onClickNextNote,
   onClickPreviousNote,
@@ -48,19 +51,23 @@ export default function Note({
         >
           <div style={{ flex: 1, marginBottom: "3rem" }}>
             <Space>
-              <KeyCommandTooltip title="Back" command="esc">
+              <KeyCommandTooltip title="See all notes" command="esc">
                 <Link to="/">
-                  <Button>Back</Button>
+                  <Button>All notes</Button>
                 </Link>
               </KeyCommandTooltip>
 
-              <KeyCommandTooltip title="Next note" command="ctrl+j">
-                <Button onClick={onClickNextNote}>Next</Button>
-              </KeyCommandTooltip>
+              {notes.length > 1 && (
+                <Space>
+                  <KeyCommandTooltip title="Next note" command="ctrl+j">
+                    <Button onClick={onClickNextNote}>Next</Button>
+                  </KeyCommandTooltip>
 
-              <KeyCommandTooltip title="Previous note" command="ctrl+k">
-                <Button onClick={onClickPreviousNote}>Previous</Button>
-              </KeyCommandTooltip>
+                  <KeyCommandTooltip title="Previous note" command="ctrl+k">
+                    <Button onClick={onClickPreviousNote}>Previous</Button>
+                  </KeyCommandTooltip>
+                </Space>
+              )}
             </Space>
           </div>
         </div>
