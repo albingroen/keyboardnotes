@@ -1,25 +1,30 @@
 import React from "react";
-import { List, Typography, Spin } from "antd";
+import { List, Typography, Spin, Button, Space } from "antd";
 import moment from "moment";
-import { INote } from "../../types";
+import { INote, IUser } from "../../types";
 import Editor from "rich-markdown-editor";
 import ContextFooter from "../container/context-footer";
 import { motion, AnimatePresence } from "framer-motion";
 import Page from "./page";
+import KeyCommandTooltip from "./key-command-tooltip";
 
 interface INotesProps {
+  user: IUser;
   notes: INote[];
   isLoading: boolean;
   activeNote?: string;
   selectedNotes: string[];
+  createNote: () => void;
   onNoteClick: (id: string) => void;
   onMouseEnter: (id: string) => void;
 }
 
 export default function Notes({
+  user,
   notes,
   activeNote,
   isLoading,
+  createNote,
   onNoteClick,
   onMouseEnter,
   selectedNotes,
@@ -54,6 +59,24 @@ export default function Notes({
       }
     >
       <div style={{ height: "100%", overflowY: "auto" }}>
+        <Space
+          align="center"
+          style={{
+            justifyContent: "space-between",
+            padding: "1rem 2rem",
+            width: "100%",
+          }}
+        >
+          <Typography.Title
+            style={{ margin: 0, padding: 0, lineHeight: 1 }}
+            level={5}
+          >
+            All notes
+          </Typography.Title>
+          <KeyCommandTooltip title="Create a new note" command="c">
+            <Button onClick={createNote}>New note</Button>
+          </KeyCommandTooltip>
+        </Space>
         <AnimatePresence>
           {isLoading || !notes.length ? (
             <motion.div
@@ -100,8 +123,9 @@ export default function Notes({
                         ? "#aeb1dd"
                         : "white",
                       cursor: "pointer",
-                      padding: "0.5rem 3rem",
-                      paddingRight: "2rem",
+                      padding: "0.5rem 2rem",
+                      paddingLeft: "calc(2rem - 4px)",
+                      // paddingRight: "2rem",
                     }}
                   >
                     <Typography.Text

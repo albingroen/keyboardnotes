@@ -21,7 +21,7 @@ export default function NotesContainer() {
   const state = useSelector((state: AppState) => state);
   const [deleteNotesIsOpen, setDeleteNotesIsOpen] = useState<boolean>(false);
   const { notes, fetchNotesStatus, activeNote, selectedNotes } = state.note;
-  const { getAccessTokenSilently, isAuthenticated } = useAuth0();
+  const { getAccessTokenSilently, isAuthenticated, user } = useAuth0();
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -104,11 +104,18 @@ export default function NotesContainer() {
       <DeleteNotesModal visible={deleteNotesIsOpen} />
 
       <Notes
+        user={user}
         notes={notes}
         onNoteClick={(id) => history.push(`/notes/${id}`)}
         isLoading={fetchNotesStatus === "loading"}
         selectedNotes={selectedNotes}
         activeNote={activeNote}
+        createNote={async () => {
+          const token = isAuthenticated
+            ? await getAccessTokenSilently()
+            : undefined;
+          dispatch(createNote({ token, history }));
+        }}
         onMouseEnter={(id) => {
           dispatch(setActiveNote(id));
         }}
