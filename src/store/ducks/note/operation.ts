@@ -23,6 +23,7 @@ import {
   deleteNote as _deleteNote,
 } from "../../../http/note";
 import { IRequestContext } from "../../../types";
+import { uniqueId } from "lodash";
 
 export const loadNotes = (
   requestContext: IRequestContext
@@ -41,6 +42,19 @@ export const createNote = (
   requestContext: IRequestContext
 ): ThunkAction<void, AppState, unknown, AppActions> => async (dispatch) => {
   dispatch(addNote());
+
+  if (!requestContext.token) {
+    const fakeNote = {
+      _id: uniqueId(),
+      title: "Untitled",
+      createdAt: new Date().toString(),
+      body: "",
+    };
+
+    dispatch(addNoteSuccess(fakeNote));
+
+    return requestContext.history?.push(`/notes/${fakeNote._id}`);
+  }
 
   try {
     const note = await _createNote(requestContext);
@@ -70,6 +84,8 @@ export const patchNote = (
   dispatch(updateNote());
   dispatch(updateNoteSuccess(newNote));
 
+  if (!requestContext.token) return;
+
   try {
     await _updateNote(requestContext, id, values);
   } catch (err) {
@@ -84,6 +100,8 @@ export const deleteNote = (
   dispatch(removeNote());
   dispatch(removeNoteSuccess(id));
 
+  if (!requestContext.token) return;
+
   try {
     await _deleteNote(requestContext, id);
   } catch (err) {
@@ -92,6 +110,7 @@ export const deleteNote = (
 };
 
 export const browseNotes = (
+  requestContext: IRequestContext,
   direction: "up" | "down"
 ): ThunkAction<void, AppState, unknown, AppActions> => async (
   dispatch,
@@ -106,4 +125,8 @@ export const browseNotes = (
     ]?._id || activeNote;
 
   dispatch(setActiveNote(nextNoteId));
+
+  if (requestContext.history) {
+    requestContext.history.push(`/notes/${nextNoteId}`);
+  }
 };

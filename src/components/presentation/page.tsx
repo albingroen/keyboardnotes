@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
-import { Drawer } from "antd";
+import { Drawer, Alert } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "../../store";
 import { toggleInterfaceItem } from "../../store/ducks/interface/operation";
 import KeyboardGuide from "./keyboard-guide";
 import Spotlight from "../container/spotlight";
+import { useAuth0 } from "@auth0/auth0-react";
 
 interface IPageProps {
   left?: React.ReactNode;
@@ -15,6 +16,7 @@ interface IPageProps {
 export default function Page({ left, children, right }: IPageProps) {
   const state = useSelector((state: AppState) => state);
   const { shortcuts, spotlight } = state.interface;
+  const { isAuthenticated } = useAuth0();
   const { isTyping } = state.note;
   const dispatch = useDispatch();
 
@@ -38,9 +40,22 @@ export default function Page({ left, children, right }: IPageProps) {
 
   return (
     <div>
+      {/* <Alert
+        message="On Aug 28 - Aug 29, due to the launch of the Keyboardnotes landing page, there may be downtime."
+        type="warning"
+      /> */}
+
+      {!isAuthenticated && (
+        <Alert
+          message="You are currently not logged in to Keyboardnotes. Nothing you do here will be saved. This is just for trying out the app."
+          type="error"
+          showIcon
+        />
+      )}
+
       <div
         style={{
-          height: "100vh",
+          height: isAuthenticated ? "100vh" : "calc(100vh - 40px)",
           display: "flex",
           background: "#fafcff",
         }}
@@ -66,7 +81,7 @@ export default function Page({ left, children, right }: IPageProps) {
           title="Keyboard shortcuts"
           visible={shortcuts.isOpen}
           onClose={() => dispatch(toggleInterfaceItem("shortcuts"))}
-          width={300}
+          width={400}
         >
           <KeyboardGuide />
         </Drawer>

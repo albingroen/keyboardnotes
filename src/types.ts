@@ -17,7 +17,7 @@ interface IHistory {
 }
 
 export interface IRequestContext {
-  token: string;
+  token?: string;
   history?: IHistory;
 }
 

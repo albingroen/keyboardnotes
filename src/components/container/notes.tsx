@@ -21,7 +21,7 @@ export default function NotesContainer() {
   const state = useSelector((state: AppState) => state);
   const [deleteNotesIsOpen, setDeleteNotesIsOpen] = useState<boolean>(false);
   const { notes, fetchNotesStatus, activeNote, selectedNotes } = state.note;
-  const { getAccessTokenSilently } = useAuth0();
+  const { getAccessTokenSilently, isAuthenticated, user } = useAuth0();
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -31,17 +31,19 @@ export default function NotesContainer() {
     const handleKeyDown = async (e: KeyboardEvent) => {
       if (spotlight.isOpen) return;
 
-      const token = await getAccessTokenSilently();
+      const token = isAuthenticated
+        ? await getAccessTokenSilently()
+        : undefined;
 
       switch (e.keyCode) {
         case 74: // 'j'
         case 40: // 'down'
           dispatch(toggleInterfaceItem("shortcuts", false));
-          return dispatch(browseNotes("down"));
+          return dispatch(browseNotes({}, "down"));
         case 75: // 'k'
         case 38: // 'up'
           dispatch(toggleInterfaceItem("shortcuts", false));
-          return dispatch(browseNotes("up"));
+          return dispatch(browseNotes({}, "up"));
         case 13: // 'enter'
           e.preventDefault();
 
@@ -60,6 +62,7 @@ export default function NotesContainer() {
             return history.push(`/notes/${activeNote}`);
           }
         case 67: // 'c'
+          e.preventDefault();
           dispatch(toggleInterfaceItem("shortcuts", false));
           return dispatch(createNote({ token, history }));
         case 69: // 'e'
@@ -91,6 +94,7 @@ export default function NotesContainer() {
     dispatch,
     getAccessTokenSilently,
     history,
+    isAuthenticated,
     selectedNotes,
     spotlight.isOpen,
   ]);
@@ -100,11 +104,18 @@ export default function NotesContainer() {
       <DeleteNotesModal visible={deleteNotesIsOpen} />
 
       <Notes
+        user={user}
         notes={notes}
         onNoteClick={(id) => history.push(`/notes/${id}`)}
         isLoading={fetchNotesStatus === "loading"}
         selectedNotes={selectedNotes}
         activeNote={activeNote}
+        createNote={async () => {
+          const token = isAuthenticated
+            ? await getAccessTokenSilently()
+            : undefined;
+          dispatch(createNote({ token, history }));
+        }}
         onMouseEnter={(id) => {
           dispatch(setActiveNote(id));
         }}

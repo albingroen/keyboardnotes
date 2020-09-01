@@ -1,27 +1,35 @@
-import React, { ChangeEvent, useRef } from "react";
-import { Divider, Space } from "antd";
+import React, { useRef, useState } from "react";
+import { Divider, Space, Button } from "antd";
 import ContentEditable from "react-contenteditable";
 import { Link } from "react-router-dom";
 import Editor from "rich-markdown-editor";
 import ContextFooter from "../container/context-footer";
-import KeyCommandButton from "./key-command-button";
 import Page from "./page";
+import KeyCommandTooltip from "./key-command-tooltip";
+import { INote } from "../../types";
 
 interface INoteProps {
+  notes: INote[];
   value?: string;
   valueTitle?: string;
-  onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
+  onChange: (e: string) => void;
   onChangeTitle: (value: string) => void;
+  onClickNextNote: () => void;
+  onClickPreviousNote: () => void;
   setIsTyping: (value: boolean) => void;
 }
 
 export default function Note({
-  value,
+  value: defaultValue,
   valueTitle,
   onChange,
+  notes,
   onChangeTitle,
+  onClickNextNote,
+  onClickPreviousNote,
   setIsTyping,
 }: INoteProps) {
+  const [value, setValue] = useState(defaultValue);
   const text = useRef<any>(valueTitle);
 
   if (text.current === undefined) {
@@ -43,11 +51,23 @@ export default function Note({
         >
           <div style={{ flex: 1, marginBottom: "3rem" }}>
             <Space>
-              <Link to="/">
-                <KeyCommandButton style={{ background: "none" }} command="esc">
-                  Back
-                </KeyCommandButton>
-              </Link>
+              <KeyCommandTooltip title="See all notes" command="esc">
+                <Link to="/">
+                  <Button>All notes</Button>
+                </Link>
+              </KeyCommandTooltip>
+
+              {notes.length > 1 && (
+                <Space>
+                  <KeyCommandTooltip title="Next note" command="ctrl+j">
+                    <Button onClick={onClickNextNote}>Next</Button>
+                  </KeyCommandTooltip>
+
+                  <KeyCommandTooltip title="Previous note" command="ctrl+k">
+                    <Button onClick={onClickPreviousNote}>Previous</Button>
+                  </KeyCommandTooltip>
+                </Space>
+              )}
             </Space>
           </div>
         </div>
@@ -68,7 +88,14 @@ export default function Note({
               className="markdown"
               defaultValue={value || " "}
               value={value || " "}
-              onChange={() => {}}
+              readOnlyWriteCheckboxes
+              onChange={(v) => {
+                const newValue = v();
+                const trimmedNewValue = newValue.substr(0, newValue.length - 4);
+
+                setValue(trimmedNewValue);
+                onChange(trimmedNewValue);
+              }}
               readOnly
             />
           </div>
@@ -95,7 +122,7 @@ export default function Note({
             }
           }}
           onFocus={(e) => document.execCommand("selectAll", false)}
-          html={text.current}
+          html={text.current || ""}
           onChange={(e) => {
             onChangeTitle(e.target.value);
             text.current = e.target.value;
@@ -107,10 +134,15 @@ export default function Note({
         <textarea
           style={{ flex: 1, width: "100%", border: "none", fontSize: "1.1em" }}
           placeholder="Start jotting down your thoughts (markdown is supported)"
+          onChange={(e) => {
+            const newValue = e.currentTarget.value;
+
+            setValue(newValue);
+            onChange(newValue);
+          }}
           onBlur={() => setIsTyping(false)}
           onFocus={() => setIsTyping(true)}
-          onChange={onChange}
-          defaultValue={value}
+          value={value}
           autoFocus
         />
       </div>

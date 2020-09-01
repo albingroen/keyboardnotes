@@ -7,7 +7,9 @@ export default function KeyCommandButton(props: any) {
       <Space>
         {props.children}
 
-        <Typography.Text keyboard>{props.command}</Typography.Text>
+        <Typography.Text style={{ color: props.style.color }} keyboard>
+          {props.command}
+        </Typography.Text>
       </Space>
     </Button>
   );
