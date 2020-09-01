@@ -17,6 +17,7 @@
     "axios": "^0.20.0",
     "framer-motion": "^2.6.0",
     "lodash": "^4.17.20",
+    "logrocket": "^1.0.12",
     "moment": "^2.27.0",
     "react": "^16.13.1",
     "react-contenteditable": "^3.3.5",

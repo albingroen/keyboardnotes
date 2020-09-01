@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import LogRocket from 'logrocket';
 import { useAuth0 } from "@auth0/auth0-react";
 import { useDispatch } from "react-redux";
 import { Route, Switch } from "react-router-dom";
@@ -10,8 +11,10 @@ import Note from "./views/note";
 import Notes from "./views/notes";
 import Profile from "./views/profile";
 
+LogRocket.init('n8rhjk/keyboardnotes');
+
 export default function App() {
-  const { isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
+  const { isAuthenticated, isLoading, user, getAccessTokenSilently } = useAuth0();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -22,6 +25,15 @@ export default function App() {
       }
     })();
   }, [dispatch, getAccessTokenSilently, isAuthenticated, isLoading]);
+
+  useEffect(() => {
+    if (user) {
+      LogRocket.identify(user.id, {
+        name: user.name,
+        email: user.email,
+      });
+    }
+  }, [user])
 
   if (isLoading) return <Loading />;
 
