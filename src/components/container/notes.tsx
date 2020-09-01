@@ -66,6 +66,8 @@ export default function NotesContainer() {
           dispatch(toggleInterfaceItem("shortcuts", false));
           return dispatch(createNote({ token, history }));
         case 69: // 'e'
+          if (!activeNote) return
+
           dispatch(toggleInterfaceItem("shortcuts", false));
           return setDeleteNotesIsOpen(true);
         case 88: // 'x'
