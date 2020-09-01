@@ -28,7 +28,7 @@ export default function App() {
 
   useEffect(() => {
     if (user) {
-      LogRocket.identify(user.id, {
+      LogRocket.identify(user.sub, {
         name: user.name,
         email: user.email,
       });
