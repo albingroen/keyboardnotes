@@ -10,6 +10,8 @@ import Note from "./views/note";
 import Login from "./views/login";
 import Notes from "./views/notes";
 import Profile from "./views/profile";
+import { FETCH_NOTES_SUCCESS } from "./store/ducks/note/types";
+import { WELCOME_NOTE } from "./lib/notes";
 
 LogRocket.init('n8rhjk/keyboardnotes');
 
@@ -22,6 +24,11 @@ export default function App() {
       if (isAuthenticated && !isLoading) {
         const token = await getAccessTokenSilently();
         dispatch(loadNotes({ token }));
+      } else if (!isLoading) {
+        dispatch({
+          type: FETCH_NOTES_SUCCESS,
+          payload: [WELCOME_NOTE]
+        })
       }
     })();
   }, [dispatch, getAccessTokenSilently, isAuthenticated, isLoading]);
