@@ -37,14 +37,14 @@ export default function Page({ left, children, right }: IPageProps) {
           e.preventDefault();
           e.stopPropagation();
           return dispatch(
-            setInterfaceWidth("rightSplit", (rightSplit.width || 25) + 10)
+            setInterfaceWidth("rightSplit", (rightSplit.width || 25) + 5)
           );
         case 76: // 'l'
           if (!e.shiftKey || !e.ctrlKey) return;
           e.preventDefault();
           e.stopPropagation();
           return dispatch(
-            setInterfaceWidth("rightSplit", (rightSplit.width || 25) - 10)
+            setInterfaceWidth("rightSplit", (rightSplit.width || 25) - 5)
           );
       }
     };
