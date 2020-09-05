@@ -25,7 +25,7 @@ export default function ContextFooter({ user, login }: IContextFooterProps) {
               type="primary"
               style={{ color: "white" }}
             >
-              Log in
+              Log in / Sign up
             </Button>
           </KeyCommandTooltip>
         )}
