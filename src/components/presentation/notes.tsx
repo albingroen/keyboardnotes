@@ -1,33 +1,35 @@
 import React from "react";
-import { List, Typography, Spin, Button, Space } from "antd";
+import { Button, List, Space, Spin, Typography } from "antd";
+import { AnimatePresence, motion } from "framer-motion";
 import moment from "moment";
-import { INote, IUser } from "../../types";
 import Editor from "rich-markdown-editor";
+import { INote } from "../../types";
 import ContextFooter from "../container/context-footer";
-import { motion, AnimatePresence } from "framer-motion";
-import Page from "./page";
 import KeyCommandTooltip from "./key-command-tooltip";
+import Page from "./page";
 
 interface INotesProps {
-  user: IUser;
   notes: INote[];
   isLoading: boolean;
   activeNote?: string;
   selectedNotes: string[];
+  isAuthenticated?: boolean;
   createNote: () => void;
   onNoteClick: (id: string) => void;
   onMouseEnter: (id: string) => void;
+  login: () => void;
 }
 
 export default function Notes({
-  user,
   notes,
+  login,
   activeNote,
   isLoading,
   createNote,
   onNoteClick,
   onMouseEnter,
   selectedNotes,
+  isAuthenticated,
 }: INotesProps) {
   const currentNoteValue = notes.find((note) => note._id === activeNote)?.body;
 
@@ -73,9 +75,28 @@ export default function Notes({
           >
             All notes
           </Typography.Title>
-          <KeyCommandTooltip title="Create a new note" command="c">
-            <Button onClick={createNote}>New note</Button>
-          </KeyCommandTooltip>
+
+          {isAuthenticated ? (
+            <KeyCommandTooltip title="Create a new note" command="c">
+              <Button onClick={createNote}>New note</Button>
+            </KeyCommandTooltip>
+          ) : (
+            <Space align="center" size="middle">
+              <KeyCommandTooltip title="Create a new note" command="c">
+                <Button onClick={createNote}>New note</Button>
+              </KeyCommandTooltip>
+              {!isAuthenticated && (
+                <KeyCommandTooltip
+                  command="cmd/ctrl+k"
+                  title="Log in or Sign up"
+                >
+                  <Button type="primary" onClick={login}>
+                    Log in / Sign up
+                  </Button>
+                </KeyCommandTooltip>
+              )}
+            </Space>
+          )}
         </Space>
         <AnimatePresence>
           {isLoading || !notes.length ? (

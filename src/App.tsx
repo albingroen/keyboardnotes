@@ -24,8 +24,8 @@ export default function App() {
       } else if (!isLoading) {
         dispatch({
           type: FETCH_NOTES_SUCCESS,
-          payload: [WELCOME_NOTE]
-        })
+          payload: [WELCOME_NOTE],
+        });
       }
     })();
   }, [dispatch, getAccessTokenSilently, isAuthenticated, isLoading]);
