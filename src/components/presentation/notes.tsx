@@ -1,4 +1,5 @@
 import React from "react";
+import dompurify from "dompurify";
 import { Button, List, Space, Spin, Typography } from "antd";
 import { AnimatePresence, motion } from "framer-motion";
 import moment from "moment";
@@ -7,6 +8,8 @@ import { INote } from "../../types";
 import ContextFooter from "../container/context-footer";
 import KeyCommandTooltip from "./key-command-tooltip";
 import Page from "./page";
+
+const sanitizer = dompurify.sanitize;
 
 interface INotesProps {
   notes: INote[];
@@ -146,17 +149,19 @@ export default function Notes({
                       cursor: "pointer",
                       padding: "0.5rem 2rem",
                       paddingLeft: "calc(2rem - 4px)",
-                      // paddingRight: "2rem",
                     }}
                   >
-                    <Typography.Text
+                    <p
                       style={{
                         color: isSelected ? "white" : "inherit",
                         fontWeight: 500,
+                        margin: 0,
+                        padding: 0,
                       }}
-                    >
-                      {note.title}
-                    </Typography.Text>
+                      dangerouslySetInnerHTML={{
+                        __html: sanitizer(note.title),
+                      }}
+                    />
                     <Typography.Text
                       style={{ color: isSelected ? "white" : "#888" }}
                       type="secondary"
