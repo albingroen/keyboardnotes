@@ -33,14 +33,14 @@ export default function Page({ left, children, right }: IPageProps) {
         case 27: // 'esc'
           return dispatch(toggleInterfaceItem("spotlight", false));
         case 72: // 'h'
-          if (!e.shiftKey) return;
+          if (!e.shiftKey || !e.ctrlKey) return;
           e.preventDefault();
           e.stopPropagation();
           return dispatch(
             setInterfaceWidth("rightSplit", (rightSplit.width || 25) + 10)
           );
         case 76: // 'l'
-          if (!e.shiftKey) return;
+          if (!e.shiftKey || !e.ctrlKey) return;
           e.preventDefault();
           e.stopPropagation();
           return dispatch(
