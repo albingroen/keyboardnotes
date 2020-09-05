@@ -47,7 +47,7 @@ export default function Page({ left, children, right }: IPageProps) {
 
       {!isAuthenticated && (
         <Alert
-          message="You are currently not logged in to Keyboardnotes. Nothing you do here will be saved. This is just for trying out the app."
+          message="You are currently not signed in to Keyboardnotes. Nothing you do here will be saved. This is just for trying out the app."
           type="warning"
           showIcon
         />
