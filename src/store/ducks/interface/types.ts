@@ -1,7 +1,8 @@
 export const SET_IS_OPEN = "keyboardnotes/interface/SET_IS_OPEN";
 export const SET_POSITION = "keyboardnotes/interface/SET_POSITION";
+export const SET_WIDTH = "keyboardnotes/interface/SET_WIDTH";
 
-export type InterfaceName = "shortcuts" | "spotlight";
+export type InterfaceName = "shortcuts" | "spotlight" | "rightSplit";
 
 export type InterfacePosition = "left" | "right" | "top" | "bottom";
 
@@ -21,4 +22,15 @@ export interface ISetPositionAction {
   };
 }
 
-export type InterfaceActions = ISetIsOpenAction | ISetPositionAction;
+export interface ISetWidthAction {
+  type: typeof SET_WIDTH;
+  payload: {
+    name: InterfaceName;
+    width: number;
+  };
+}
+
+export type InterfaceActions =
+  | ISetIsOpenAction
+  | ISetPositionAction
+  | ISetWidthAction;

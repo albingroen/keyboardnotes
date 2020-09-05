@@ -2,8 +2,9 @@ import * as types from "./types";
 
 type IInterfaceState = {
   [name in types.InterfaceName]: {
-    isOpen: boolean;
+    isOpen?: boolean;
     position?: types.InterfacePosition;
+    width?: number;
   };
 };
 
@@ -15,6 +16,9 @@ const initialState: IInterfaceState = {
   },
   spotlight: {
     isOpen: false,
+  },
+  rightSplit: {
+    width: 25,
   },
 };
 
@@ -38,6 +42,14 @@ export default function reducer(
         [action.payload.name]: {
           ...state[action.payload.name],
           position: action.payload.position,
+        },
+      };
+    case types.SET_WIDTH:
+      return {
+        ...state,
+        [action.payload.name]: {
+          ...state[action.payload.name],
+          width: action.payload.width,
         },
       };
     default:

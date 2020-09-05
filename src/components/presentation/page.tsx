@@ -6,6 +6,7 @@ import { toggleInterfaceItem } from "../../store/ducks/interface/operation";
 import KeyboardGuide from "./keyboard-guide";
 import Spotlight from "../container/spotlight";
 import { useAuth0 } from "@auth0/auth0-react";
+import { setInterfaceWidth } from "../../store/ducks/interface/actions";
 
 interface IPageProps {
   left?: React.ReactNode;
@@ -15,7 +16,7 @@ interface IPageProps {
 
 export default function Page({ left, children, right }: IPageProps) {
   const state = useSelector((state: AppState) => state);
-  const { shortcuts, spotlight } = state.interface;
+  const { shortcuts, spotlight, rightSplit } = state.interface;
   const { isAuthenticated } = useAuth0();
   const { isTyping } = state.note;
   const dispatch = useDispatch();
@@ -31,12 +32,26 @@ export default function Page({ left, children, right }: IPageProps) {
           return e.metaKey && dispatch(toggleInterfaceItem("spotlight"));
         case 27: // 'esc'
           return dispatch(toggleInterfaceItem("spotlight", false));
+        case 72: // 'h'
+          if (!e.shiftKey) return;
+          e.preventDefault();
+          e.stopPropagation();
+          return dispatch(
+            setInterfaceWidth("rightSplit", (rightSplit.width || 25) + 10)
+          );
+        case 76: // 'l'
+          if (!e.shiftKey) return;
+          e.preventDefault();
+          e.stopPropagation();
+          return dispatch(
+            setInterfaceWidth("rightSplit", (rightSplit.width || 25) - 10)
+          );
       }
     };
 
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [dispatch, isTyping]);
+  }, [dispatch, isTyping, rightSplit.width]);
 
   return (
     <div>
@@ -75,7 +90,7 @@ export default function Page({ left, children, right }: IPageProps) {
           {children}
         </div>
 
-        {right && <div style={{ width: "25%" }}>{right}</div>}
+        {right && <div style={{ width: `${rightSplit.width}%` }}>{right}</div>}
 
         <Drawer
           title="Keyboard shortcuts"

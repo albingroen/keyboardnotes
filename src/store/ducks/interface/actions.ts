@@ -25,3 +25,16 @@ export function setInterfacePosition(
     },
   };
 }
+
+export function setInterfaceWidth(
+  name: types.InterfaceName,
+  width: number
+): types.ISetWidthAction {
+  return {
+    type: types.SET_WIDTH,
+    payload: {
+      name,
+      width,
+    },
+  };
+}

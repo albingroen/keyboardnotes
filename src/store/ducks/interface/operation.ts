@@ -1,4 +1,8 @@
-import { setInterfaceIsOpen, setInterfacePosition } from "./actions";
+import {
+  setInterfaceIsOpen,
+  setInterfacePosition,
+  setInterfaceWidth,
+} from "./actions";
 import { ThunkAction } from "redux-thunk";
 import { AppState } from "../..";
 import { AppActions } from "..";
@@ -18,4 +22,11 @@ export const toggleInterfacePosition = (
   position: InterfacePosition
 ): ThunkAction<void, AppState, unknown, AppActions> => (dispatch) => {
   dispatch(setInterfacePosition(name, position));
+};
+
+export const toggleInterfaceWidth = (
+  name: InterfaceName,
+  width: number
+): ThunkAction<void, AppState, unknown, AppActions> => (dispatch) => {
+  dispatch(setInterfaceWidth(name, width));
 };
