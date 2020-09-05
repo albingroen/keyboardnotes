@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import LogRocket from 'logrocket';
 import { useAuth0 } from "@auth0/auth0-react";
 import { useDispatch } from "react-redux";
 import { Route, Switch, Redirect } from "react-router-dom";
@@ -13,10 +12,8 @@ import Profile from "./views/profile";
 import { FETCH_NOTES_SUCCESS } from "./store/ducks/note/types";
 import { WELCOME_NOTE } from "./lib/notes";
 
-LogRocket.init('n8rhjk/keyboardnotes');
-
 export default function App() {
-  const { isAuthenticated, isLoading, user, getAccessTokenSilently } = useAuth0();
+  const { isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -32,15 +29,6 @@ export default function App() {
       }
     })();
   }, [dispatch, getAccessTokenSilently, isAuthenticated, isLoading]);
-
-  useEffect(() => {
-    if (user) {
-      LogRocket.identify(user.sub, {
-        name: user.name,
-        email: user.email,
-      });
-    }
-  }, [user])
 
   if (isLoading) return <Loading />;
 

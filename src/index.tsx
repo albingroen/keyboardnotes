@@ -1,9 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import Bugsnag from "@bugsnag/js";
-import BugsnagPluginReact from "@bugsnag/plugin-react";
 import "antd/dist/antd.css";
-import LogRocket from "logrocket";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import App from "./App";
@@ -11,18 +8,6 @@ import Auth0ProviderWithHistory from "./auth0-provider-with-history";
 import "./index.css";
 import * as serviceWorker from "./serviceWorker";
 import store from "./store";
-
-
-
-Bugsnag.start({
-  apiKey: "f1465297eadd679d0849362d4f2acb76",
-  plugins: [new BugsnagPluginReact()],
-  metadata: {
-    sessionUrl: LogRocket.sessionURL
-  }
-});
-
-const ErrorBoundary = Bugsnag.getPlugin("react")?.createErrorBoundary(React);
 
 const Application = () => (
   <Router>
@@ -36,13 +21,7 @@ const Application = () => (
 
 ReactDOM.render(
   <React.StrictMode>
-    {ErrorBoundary ? (
-      <ErrorBoundary>
-        <Application />
-      </ErrorBoundary>
-    ) : (
-      <Application />
-    )}
+    <Application />
   </React.StrictMode>,
   document.getElementById("root")
 );

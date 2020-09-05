@@ -1,6 +1,5 @@
 import { applyMiddleware, createStore, combineReducers } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
-import LogRocket from 'logrocket';
 import thunk from "redux-thunk";
 
 import noteReducer from "./ducks/note/reducers";
@@ -15,7 +14,7 @@ export type AppState = ReturnType<typeof rootReducer>;
 
 const store = createStore(
   rootReducer,
-  composeWithDevTools(applyMiddleware(thunk, LogRocket.reduxMiddleware()))
+  composeWithDevTools(applyMiddleware(thunk))
 );
 
 export default store;
