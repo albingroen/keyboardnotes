@@ -1,15 +1,20 @@
 import React from "react";
-import Spotlight from "../presentation/spotlight";
-import { useDispatch, useSelector } from "react-redux";
-import { toggleInterfaceItem } from "../../store/ducks/interface/operation";
-import { createNote, deleteNote } from "../../store/ducks/note/operation";
 import { useAuth0 } from "@auth0/auth0-react";
+import { message } from "antd";
+import copy from "copy-to-clipboard";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useRouteMatch } from "react-router-dom";
+import showdown from "showdown";
+import { AppState } from "../../store";
+import { toggleInterfaceItem } from "../../store/ducks/interface/operation";
 import {
   addSelectedNote,
   resetSelectedNotes,
 } from "../../store/ducks/note/actions";
-import { AppState } from "../../store";
+import { createNote, deleteNote } from "../../store/ducks/note/operation";
+import Spotlight from "../presentation/spotlight";
+
+const converter = new showdown.Converter({ completeHTMLDocument: true });
 
 export default function SpotlightContainer() {
   const dispatch = useDispatch();
@@ -24,7 +29,8 @@ export default function SpotlightContainer() {
     loginWithRedirect,
   } = useAuth0();
 
-  const { activeNote, selectedNotes } = state.note;
+  const { activeNote, selectedNotes, notes } = state.note;
+  const note = notes.find(({ _id }) => _id === activeNote);
 
   const onSelect = async (event: string) => {
     const token = isAuthenticated ? await getAccessTokenSilently() : undefined;
@@ -55,6 +61,18 @@ export default function SpotlightContainer() {
       case "Sign out (Log out)":
         logout();
         break;
+      case "Copy as Markdown":
+        if (!note) return;
+
+        copy(note.body);
+        message.success("Markdown copied to clipboard!");
+        break;
+      case "Copy as HTML":
+        if (!note) return;
+
+        copy(converter.makeHtml(note.body));
+        message.success("HTML copied to clipboard!");
+        break;
     }
 
     dispatch(toggleInterfaceItem("spotlight", false));
@@ -70,6 +88,14 @@ export default function SpotlightContainer() {
           {
             label: "Archive (Delete)",
             value: "Archive (Delete)",
+          },
+          {
+            label: "Copy as Markdown",
+            value: "Copy as Markdown",
+          },
+          {
+            label: "Copy as HTML",
+            value: "Copy as HTML",
           },
           isAuthenticated
             ? { label: "Sign out (Log out)", value: "Sign out (Log out)" }
