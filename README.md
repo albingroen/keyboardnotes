@@ -1,6 +1,6 @@
 # keyboardnotes
 
-| ⌨️ Notes app that's entirely accessible through your keyboard
+> ⌨️ Notes app that's entirely accessible through your keyboard
 
 I built keyboardnotes for myself to more easily jot down my thoughts throughout the day that's completely accessible through the keyboard.
 
