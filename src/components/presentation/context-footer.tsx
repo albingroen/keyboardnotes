@@ -13,7 +13,7 @@ interface IContextFooterProps {
 export default function ContextFooter({ user, login }: IContextFooterProps) {
   return (
     <Space direction="vertical" size="middle">
-      <Typography.Text type="secondary">{user.email}</Typography.Text>
+      <Typography.Text type="secondary">{user?.email}</Typography.Text>
       <Space size="small" align="center">
         <ShortcutsButton />
         {user ? (
