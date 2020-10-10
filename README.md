@@ -5,9 +5,11 @@
 I built keyboardnotes for myself to more easily jot down my thoughts throughout the day that's completely accessible through the keyboard.
 
 ## Marketing page
+
 [www.keyboardnotes.io](https://keyboardnotes.io/)
 
 ## Demo and app
+
 [app.keyboarndotes.io](https://app.keyboardnotes.io/)
 
 ## Built using

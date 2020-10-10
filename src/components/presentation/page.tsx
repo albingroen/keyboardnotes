@@ -25,11 +25,15 @@ export default function Page({ left, children, right }: IPageProps) {
     const handleKeyDown = (e: KeyboardEvent) => {
       switch (e.keyCode) {
         case 191: // '?'
+          e.preventDefault();
           if (isTyping) return;
 
           return dispatch(toggleInterfaceItem("shortcuts"));
         case 75: // 'cmd+k'
-          return e.metaKey && dispatch(toggleInterfaceItem("spotlight"));
+          if (!e.metaKey) return;
+
+          e.preventDefault();
+          return dispatch(toggleInterfaceItem("spotlight"));
         case 27: // 'esc'
           return dispatch(toggleInterfaceItem("spotlight", false));
         case 72: // 'h'

@@ -21,7 +21,10 @@ export default function SpotlightContainer() {
   const match = useRouteMatch();
   const history = useHistory();
 
-  const state = useSelector((state: AppState) => state);
+  const { notes, activeNote, selectedNotes } = useSelector(
+    (state: AppState) => state.note
+  );
+
   const {
     getAccessTokenSilently,
     isAuthenticated,
@@ -29,7 +32,6 @@ export default function SpotlightContainer() {
     loginWithRedirect,
   } = useAuth0();
 
-  const { activeNote, selectedNotes, notes } = state.note;
   const note = notes.find(({ _id }) => _id === activeNote);
 
   const onSelect = async (event: string) => {
@@ -73,6 +75,8 @@ export default function SpotlightContainer() {
         copy(converter.makeHtml(note.body));
         message.success("HTML copied to clipboard!");
         break;
+      case "Shortcuts":
+        dispatch(toggleInterfaceItem("shortcuts"));
     }
 
     dispatch(toggleInterfaceItem("spotlight", false));
@@ -97,6 +101,10 @@ export default function SpotlightContainer() {
             label: "Copy as HTML",
             value: "Copy as HTML",
           },
+          {
+            label: "Shortcuts",
+            value: "Shortcuts",
+          },
           isAuthenticated
             ? { label: "Sign out (Log out)", value: "Sign out (Log out)" }
             : { label: "Sign in (Log in)", value: "Sign in (Log in)" },
@@ -116,6 +124,10 @@ export default function SpotlightContainer() {
             label: "Archive (Delete)",
             value: "Archive (Delete)",
             command: "e",
+          },
+          {
+            label: "Shortcuts",
+            value: "Shortcuts",
           },
           isAuthenticated
             ? { label: "Sign out (Log out)", value: "Sign out (Log out)" }
