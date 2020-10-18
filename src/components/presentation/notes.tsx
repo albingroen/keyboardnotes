@@ -34,7 +34,7 @@ export default function Notes({
   selectedNotes,
   isAuthenticated,
 }: INotesProps) {
-  const currentNoteValue = notes.find((note) => note._id === activeNote)?.body;
+  const currentNote = notes.find((note) => note._id === activeNote);
 
   return (
     <Page
@@ -50,9 +50,12 @@ export default function Notes({
           }}
         >
           <div style={{ flex: 1, marginBottom: "3rem" }}>
+            {currentNote?.title && (
+              <h1 dangerouslySetInnerHTML={{ __html: currentNote?.title }}></h1>
+            )}
             <Editor
-              defaultValue={currentNoteValue || " "}
-              value={currentNoteValue || " "}
+              defaultValue={currentNote?.body || " "}
+              value={currentNote?.body || " "}
               className="markdown"
               onChange={() => {}}
               readOnly

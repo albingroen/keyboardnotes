@@ -84,6 +84,9 @@ export default function Note({
           }}
         >
           <div style={{ flex: 1, marginBottom: "3rem" }}>
+            {valueTitle && (
+              <h1 dangerouslySetInnerHTML={{ __html: valueTitle }}></h1>
+            )}
             <Editor
               className="markdown"
               defaultValue={value || " "}
