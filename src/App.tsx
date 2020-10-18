@@ -11,6 +11,7 @@ import Notes from "./views/notes";
 import Profile from "./views/profile";
 import { FETCH_NOTES_SUCCESS } from "./store/ducks/note/types";
 import { WELCOME_NOTE } from "./lib/notes";
+import NewNoteView from "./views/new-note";
 
 export default function App() {
   const { isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
@@ -37,6 +38,7 @@ export default function App() {
       <Route exact path="/" component={Notes} />
       <Route exact path="/notes/:id" component={Note} />
       <PrivateRoute exact path="/profile" component={Profile} />
+      <PrivateRoute exact path="/new" component={NewNoteView} />
       {!isAuthenticated ? (
         <Route exact path="/login" component={Login} />
       ) : (
