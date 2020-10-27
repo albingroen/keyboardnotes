@@ -24,6 +24,7 @@ import {
 } from "../../../http/note";
 import { IRequestContext } from "../../../types";
 import { uniqueId } from "lodash";
+import { message } from "antd";
 
 export const loadNotes = (
   requestContext: IRequestContext
@@ -104,6 +105,7 @@ export const deleteNote = (
 
   try {
     await _deleteNote(requestContext, id);
+    message.info("Note deleted");
   } catch (err) {
     dispatch(removeNoteError(err.message));
   }
