@@ -107,7 +107,10 @@ export default function NotesContainer() {
 
   return (
     <React.Fragment>
-      <DeleteNotesModal visible={deleteNotesIsOpen} />
+      <DeleteNotesModal
+        setDeleteNotesIsOpen={setDeleteNotesIsOpen}
+        visible={deleteNotesIsOpen}
+      />
 
       <Notes
         notes={notes}

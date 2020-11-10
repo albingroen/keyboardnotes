@@ -8,10 +8,14 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { deleteNote } from "../../store/ducks/note/operation";
 
 interface IDeleteNotesProps {
+  setDeleteNotesIsOpen: (value: boolean) => void;
   visible: boolean;
 }
 
-export default function DeleteNotesModal({ visible }: IDeleteNotesProps) {
+export default function DeleteNotesModal({
+  setDeleteNotesIsOpen,
+  visible,
+}: IDeleteNotesProps) {
   const state = useSelector((state: AppState) => state);
   const { activeNote, selectedNotes } = state.note;
   const { getAccessTokenSilently, isAuthenticated } = useAuth0();
@@ -41,10 +45,13 @@ export default function DeleteNotesModal({ visible }: IDeleteNotesProps) {
       }
       cancelButtonProps={{ style: { paddingRight: 0 } }}
       okButtonProps={{ danger: true, style: { paddingRight: 0 } }}
+      onCancel={() => setDeleteNotesIsOpen(false)}
       onOk={async () => {
         const token = isAuthenticated
           ? await getAccessTokenSilently()
           : undefined;
+
+        setDeleteNotesIsOpen(false);
 
         if (selectedNotes.length) {
           return selectedNotes.forEach((id) => {
