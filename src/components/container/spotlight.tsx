@@ -69,6 +69,15 @@ export default function SpotlightContainer() {
         copy(note.body);
         message.success("Markdown copied to clipboard!");
         break;
+      case "Share note":
+        if (!note) return;
+
+        const encodedBody = encodeURIComponent(note.body)
+        const encodedTitle = encodeURIComponent(`# ${note.title}`)
+        const encodedMarkdown = encodedTitle + '%0A' + encodedBody
+        copy(`https://rmmd.link/?markdown=${encodedMarkdown}&darkMode=true`)
+        message.success("Url copied to clipboard!");
+        break;
       case "Copy as HTML":
         if (!note) return;
 
@@ -92,6 +101,10 @@ export default function SpotlightContainer() {
           {
             label: "Archive (Delete)",
             value: "Archive (Delete)",
+          },
+          {
+            label: "Share note",
+            value: "Share note",
           },
           {
             label: "Copy as Markdown",
