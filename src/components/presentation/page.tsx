@@ -23,27 +23,29 @@ export default function Page({ left, children, right }: IPageProps) {
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      switch (e.keyCode) {
-        case 191: // '?'
+      switch (e.key) {
+        case "?":
           e.preventDefault();
           if (isTyping) return;
 
           return dispatch(toggleInterfaceItem("shortcuts"));
-        case 75: // 'cmd+k'
+        case "k": // 'cmd+k'
           if (!e.metaKey) return;
 
           e.preventDefault();
           return dispatch(toggleInterfaceItem("spotlight"));
-        case 27: // 'esc'
+        case "Escape":
           return dispatch(toggleInterfaceItem("spotlight", false));
-        case 72: // 'h'
+        case "H":
+        case "h":
           if (!e.shiftKey || !e.ctrlKey) return;
           e.preventDefault();
           e.stopPropagation();
           return dispatch(
             setInterfaceWidth("rightSplit", (rightSplit.width || 25) + 5)
           );
-        case 76: // 'l'
+        case "L":
+        case "l":
           if (!e.shiftKey || !e.ctrlKey) return;
           e.preventDefault();
           e.stopPropagation();
@@ -59,15 +61,9 @@ export default function Page({ left, children, right }: IPageProps) {
 
   return (
     <div>
-      {/* <Alert
-        message="On Aug 28 - Aug 29, due to the launch of the Keyboardnotes landing page, there may be downtime."
-        type="warning"
-      /> */}
-
       {!isAuthenticated && (
         <Alert
-          message="You are currently not signed in to Keyboardnotes. Nothing you do here will be saved. This is just for trying out the app."
-          type="warning"
+          message="You are not yet signed in. Nothing you do here will be saved."
           showIcon
         />
       )}

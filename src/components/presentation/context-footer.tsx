@@ -19,11 +19,10 @@ export default function ContextFooter({ user, login }: IContextFooterProps) {
         {user ? (
           <LogoutButton />
         ) : (
-          <KeyCommandTooltip title="Log in" command="cmd/ctrl + k">
+          <KeyCommandTooltip command="cmd/ctrl + k">
             <Button
               onClick={() => login()}
               type="primary"
-              style={{ color: "white" }}
             >
               Log in / Sign up
             </Button>

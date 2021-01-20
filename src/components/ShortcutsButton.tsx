@@ -8,7 +8,7 @@ export default function ShortcutsButton() {
   const dispatch = useDispatch();
 
   return (
-    <KeyCommandTooltip title="Shortcuts" command="?">
+    <KeyCommandTooltip command="?">
       <Button onClick={() => dispatch(toggleInterfaceItem("shortcuts"))}>
         Shortcuts
       </Button>

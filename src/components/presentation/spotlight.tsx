@@ -53,6 +53,7 @@ export default function Spotlight({
 
             return option;
           })}
+          optionFilterProp="label"
           filterOption
           size="large"
           defaultOpen

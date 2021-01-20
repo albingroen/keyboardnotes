@@ -1,6 +1,6 @@
 import React from "react";
 import Modal from "antd/lib/modal/Modal";
-import { Typography, Space } from "antd";
+import { Typography } from "antd";
 import { removeSelectedNote } from "../../store/ducks/note/actions";
 import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "../../store";
@@ -25,26 +25,9 @@ export default function DeleteNotesModal({
     <Modal
       visible={visible}
       title="Are you sure you want to delete this note?"
-      cancelText={
-        <Typography.Text>
-          <Space>
-            Cancel
-            <Typography.Text keyboard>esc</Typography.Text>
-          </Space>
-        </Typography.Text>
-      }
-      okText={
-        <Typography.Text style={{ color: "white" }}>
-          <Space>
-            Delete
-            <Typography.Text style={{ color: "white" }} keyboard>
-              enter
-            </Typography.Text>
-          </Space>
-        </Typography.Text>
-      }
-      cancelButtonProps={{ style: { paddingRight: 0 } }}
-      okButtonProps={{ danger: true, style: { paddingRight: 0 } }}
+      cancelText="Cancel"
+      okText="Yes, delete"
+      okButtonProps={{ danger: true }}
       onCancel={() => setDeleteNotesIsOpen(false)}
       onOk={async () => {
         const token = isAuthenticated
@@ -63,7 +46,7 @@ export default function DeleteNotesModal({
         dispatch(deleteNote({ token }, activeNote));
       }}
     >
-      <Typography.Text>
+      <Typography.Text type="secondary">
         This note will be completely deleted and not recoverable.
       </Typography.Text>
     </Modal>

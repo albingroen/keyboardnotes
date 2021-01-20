@@ -19,6 +19,7 @@ export default function KeyboardGuide({ style }: { style?: CSSProperties }) {
       <KeyValue label="Select note in list" value="x" />
       <KeyValue label="Browse next note in list" value="j" />
       <KeyValue label="Browse previous note in list" value="k" />
+      <KeyValue label="Search notes in list" value="/" />
       <KeyValue label="Browse next note from note view" value="ctrl+j" />
       <KeyValue label="Browse previous note from note view" value="ctrl+k" />
       <KeyValue label="Make right pane wider" value="shift+ctrl+h" />

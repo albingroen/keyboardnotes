@@ -105,7 +105,7 @@ export const deleteNote = (
 
   try {
     await _deleteNote(requestContext, id);
-    message.info("Note deleted");
+    message.success("Note deleted successfully!");
   } catch (err) {
     dispatch(removeNoteError(err.message));
   }

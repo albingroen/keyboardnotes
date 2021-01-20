@@ -41,7 +41,7 @@ export default function Note({
       left={
         <div
           style={{
-            padding: "1.5rem 2rem",
+            padding: "1.25rem",
             display: "flex",
             flexDirection: "column",
             alignItems: "flex-start",
@@ -51,7 +51,7 @@ export default function Note({
         >
           <div style={{ flex: 1, marginBottom: "3rem" }}>
             <Space>
-              <KeyCommandTooltip title="See all notes" command="esc">
+              <KeyCommandTooltip command="esc">
                 <Link to="/">
                   <Button>All notes</Button>
                 </Link>
@@ -59,11 +59,11 @@ export default function Note({
 
               {notes.length > 1 && (
                 <Space>
-                  <KeyCommandTooltip title="Next note" command="ctrl+j">
+                  <KeyCommandTooltip command="ctrl+j">
                     <Button onClick={onClickNextNote}>Next</Button>
                   </KeyCommandTooltip>
 
-                  <KeyCommandTooltip title="Previous note" command="ctrl+k">
+                  <KeyCommandTooltip command="ctrl+k">
                     <Button onClick={onClickPreviousNote}>Previous</Button>
                   </KeyCommandTooltip>
                 </Space>

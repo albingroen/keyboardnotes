@@ -7,7 +7,7 @@ const LogoutButton = () => {
   const { logout } = useAuth0();
 
   return (
-    <KeyCommandTooltip title="Log out" command="cmd/ctrl+k">
+    <KeyCommandTooltip command="cmd/ctrl+k">
       <Button
         onClick={() => logout({ returnTo: window.location.origin })}
         danger

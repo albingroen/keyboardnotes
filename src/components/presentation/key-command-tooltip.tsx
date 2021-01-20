@@ -4,7 +4,7 @@ import { Tooltip, Typography } from "antd";
 interface IKeyCommandTooltipProps {
   children: React.ReactElement;
   command: string;
-  title: string;
+  title?: string;
 }
 
 export default function KeyCommandTooltip({
@@ -16,7 +16,7 @@ export default function KeyCommandTooltip({
     <Tooltip
       title={
         <Typography.Text style={{ color: "white" }}>
-          {title}{" "}
+          {title ? `${title }` : ''}
           <Typography.Text style={{ color: "white" }} keyboard>
             {command}
           </Typography.Text>{" "}

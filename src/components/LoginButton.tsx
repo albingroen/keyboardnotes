@@ -9,8 +9,8 @@ const LoginButton: React.FC<ButtonProps> = ({ children, ...rest }) => {
   return (
     <Button
       style={{ margin: "1rem", display: "block" }}
-      type="primary"
       onClick={() => loginWithRedirect()}
+      type="primary"
       size="large"
       {...rest}
     >
