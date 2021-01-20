@@ -17,9 +17,9 @@ interface INotesProps {
   activeNote?: string;
   selectedNotes: string[];
   isAuthenticated?: boolean;
-  createNote: () => void;
   onNoteClick: (id: string) => void;
   onMouseEnter: (id: string) => void;
+  createNote: () => void;
   login: () => void;
 }
 
@@ -75,27 +75,36 @@ export default function Notes({
             width: "100%",
           }}
         >
-          <Typography.Title
-            style={{ margin: 0, padding: 0, lineHeight: 1 }}
-            level={5}
-          >
-            All notes
-          </Typography.Title>
+          <Space align="center" size={10}>
+            <img
+              src="https://res.cloudinary.com/albin-groen/image/upload/v1598347221/keyboardnotes-logo_vsebhn.png"
+              style={{ maxWidth: 25 }}
+              alt="Keyboardnotes logo"
+            />
+
+            <Typography.Title
+              style={{ margin: 0, padding: 0, lineHeight: 1 }}
+              level={5}
+            >
+              All notes
+            </Typography.Title>
+          </Space>
 
           {isAuthenticated ? (
-            <KeyCommandTooltip title="Create a new note" command="c">
-              <Button onClick={createNote}>New note</Button>
-            </KeyCommandTooltip>
+              <KeyCommandTooltip command="c">
+                <Button onClick={createNote}>
+                  New note
+                </Button>
+              </KeyCommandTooltip>
           ) : (
-            <Space align="center" size="middle">
-              <KeyCommandTooltip title="Create a new note" command="c">
-                <Button onClick={createNote}>New note</Button>
+            <Space align="center">
+              <KeyCommandTooltip command="c">
+                <Button onClick={createNote}>
+                  New note
+                </Button>
               </KeyCommandTooltip>
               {!isAuthenticated && (
-                <KeyCommandTooltip
-                  command="cmd/ctrl+k"
-                  title="Log in or Sign up"
-                >
+                <KeyCommandTooltip command="cmd/ctrl+k">
                   <Button type="primary" onClick={login}>
                     Log in / Sign up
                   </Button>
@@ -129,6 +138,50 @@ export default function Notes({
               const isSelected = selectedNotes.includes(note._id);
               const isActive = note._id === activeNote;
 
+              const renderListItem = () => (
+                <List.Item
+                  onClick={() => onNoteClick(note._id)}
+                  onMouseEnter={() => onMouseEnter(note._id)}
+                  style={{
+                    border: "none",
+                    borderLeft: "4px solid white",
+                    background: isSelected
+                      ? "#54acdc"
+                      : isActive
+                      ? "#f4f6fb"
+                      : "white",
+                    borderLeftColor: isSelected
+                      ? isActive
+                        ? "white"
+                        : "#54acdc"
+                      : isActive
+                      ? "#aeb1dd"
+                      : "white",
+                    cursor: "pointer",
+                    padding: "0.5rem 2rem",
+                    paddingLeft: "calc(2rem - 4px)",
+                  }}
+                >
+                  <p
+                    style={{
+                      color: isSelected ? "white" : "inherit",
+                      fontWeight: 500,
+                      margin: 0,
+                      padding: 0,
+                    }}
+                    dangerouslySetInnerHTML={{
+                      __html: sanitizer(note.title),
+                    }}
+                  />
+                  <Typography.Text
+                    style={{ color: isSelected ? "white" : "#888" }}
+                    type="secondary"
+                  >
+                    {moment(note.createdAt).format("DD MMM HH:mm")}
+                  </Typography.Text>
+                </List.Item>
+              );
+
               return (
                 <motion.div
                   exit={{ x: 300, opacity: 0 }}
@@ -136,47 +189,7 @@ export default function Notes({
                   key={note._id}
                   layout
                 >
-                  <List.Item
-                    onClick={() => onNoteClick(note._id)}
-                    onMouseEnter={() => onMouseEnter(note._id)}
-                    style={{
-                      border: "none",
-                      borderLeft: "4px solid white",
-                      background: isSelected
-                        ? "#54acdc"
-                        : isActive
-                        ? "#f4f6fb"
-                        : "white",
-                      borderLeftColor: isSelected
-                        ? isActive
-                          ? "white"
-                          : "#54acdc"
-                        : isActive
-                        ? "#aeb1dd"
-                        : "white",
-                      cursor: "pointer",
-                      padding: "0.5rem 2rem",
-                      paddingLeft: "calc(2rem - 4px)",
-                    }}
-                  >
-                    <p
-                      style={{
-                        color: isSelected ? "white" : "inherit",
-                        fontWeight: 500,
-                        margin: 0,
-                        padding: 0,
-                      }}
-                      dangerouslySetInnerHTML={{
-                        __html: sanitizer(note.title),
-                      }}
-                    />
-                    <Typography.Text
-                      style={{ color: isSelected ? "white" : "#888" }}
-                      type="secondary"
-                    >
-                      {moment(note.createdAt).format("DD MMM HH:mm")}
-                    </Typography.Text>
-                  </List.Item>
+                  {renderListItem()}
                 </motion.div>
               );
             })

@@ -38,7 +38,7 @@ export default function SpotlightContainer() {
     const token = isAuthenticated ? await getAccessTokenSilently() : undefined;
 
     switch (event) {
-      case "Compose":
+      case "New note":
         dispatch(createNote({ token, history }));
         break;
       case "Select":
@@ -69,13 +69,15 @@ export default function SpotlightContainer() {
         copy(note.body);
         message.success("Markdown copied to clipboard!");
         break;
-      case "Share note":
+      case "Share note (dark)":
+      case "Share note (light)":
         if (!note) return;
 
+        const mode = event.split('(')[1].split(')')[0]
         const encodedBody = encodeURIComponent(note.body)
         const encodedTitle = encodeURIComponent(`# ${note.title}`)
         const encodedMarkdown = encodedTitle + '%0A' + encodedBody
-        copy(`https://rmmd.link/?markdown=${encodedMarkdown}&darkMode=true`)
+        copy(`https://rmmd.link/?markdown=${encodedMarkdown}&darkMode=${mode === "dark"}`)
         message.success("Url copied to clipboard!");
         break;
       case "Copy as HTML":
@@ -95,8 +97,8 @@ export default function SpotlightContainer() {
     return match.path === "/notes/:id"
       ? [
           {
-            label: "Compose",
-            value: "Compose",
+            label: "New note",
+            value: "New note",
           },
           {
             label: "Archive (Delete)",
@@ -105,14 +107,30 @@ export default function SpotlightContainer() {
           {
             label: "Share note",
             value: "Share note",
+            options: [
+              {
+                label: "Dark mode",
+                value: "Share note (dark)"
+              },
+              {
+                label: "Light mode",
+                value: "Share note (light)"
+              },
+            ]
           },
           {
-            label: "Copy as Markdown",
-            value: "Copy as Markdown",
-          },
-          {
-            label: "Copy as HTML",
-            value: "Copy as HTML",
+            label: "Copy note as",
+            value: "copy",
+            options: [
+              {
+                label: "Markdown",
+                value: "Copy as Markdown"
+              },
+              {
+                label: "HTML",
+                value: "Copy as HTML"
+              }
+            ]
           },
           {
             label: "Shortcuts",
@@ -124,8 +142,8 @@ export default function SpotlightContainer() {
         ]
       : [
           {
-            label: "Compose",
-            value: "Compose",
+            label: "New note",
+            value: "New note",
             command: "c",
           },
           {
